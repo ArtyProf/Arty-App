@@ -16,14 +16,13 @@ jobs:
     - name: Set up .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 7.0.x
 
     - name: Build and Publish
       run: dotnet publish -c Release -o out
 
+    - name: Login to Heroku
+      run: heroku login -i
+
     - name: Deploy to Heroku
-      uses: heroku/deploy-heroku-action@v2
-      with:
-        app-name: TelegramBot
-        api-key: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push web -a your-app-name
+      run: heroku container:push web -a TelegramBot
