@@ -4,7 +4,7 @@
 var app = builder.Build();
 
 // Map APIs
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/", () => "Hello World! I am deployed!");
 
 // Start the Server
 app.Run();
