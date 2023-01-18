@@ -4,4 +4,4 @@ build:
   - dotnet build -c Release -r linux-x64
 
 run:
-  - dotnet bin/Release/netcoreapp7.0/YourAppName.dll
+  - dotnet bin/Release/netcoreapp7.0/Telegram Bot from Arty_Prof.dll
