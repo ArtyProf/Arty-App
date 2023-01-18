@@ -1,31 +1,33 @@
-name: Deploy to Firebase
+name: Deploy to OpenShift
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: 7.0.x
-    - name: Build and Publish
-      run: dotnet publish -c Release -o out
-    - name: Install Firebase CLI
-      run: npm install -g firebase-tools
-    - name: Login to Firebase
-      run: firebase login --no-localhost
-    - name: Deploy to Firebase Hosting
-      uses: FirebaseExtended/action-hosting-deploy@v0
-      with:
-        repoToken: '${{ secrets.GITHUB_TOKEN }}'
-        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TELEGRAM_BOT_FROM_ARTYPROF }}'
-        channelId: live
-        projectId: ${{ secrets.FIREBASE_PROJECT_ID }}
+
+    - name: Install OpenShift CLI
+      run: |
+        VERSION=4.7
+        URL=https://mirror.openshift.com/pub/openshift-v4/clients/oc/${VERSION}/linux/oc.tar.gz
+        wget $URL
+        tar xvfz oc.tar.gz
+        chmod +x oc
+        mv oc /usr/local/bin/
+
+    - name: Login to OpenShift
+      run: oc login --token=${{ secrets.OC_TOKEN }} --server=https://api.sandbox-m3.1530.p1.openshiftapps.com:6443
+
+    - name: Deploy to OpenShift
+      run: |
+        oc apply -f k8s/
+
+    - name: Check Deployment
+      run: oc rollout status deployment/my-deployment
