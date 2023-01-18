@@ -1,9 +1,9 @@
-name: Deploy to Firebase Hosting
+name: Deploy to Firebase
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
@@ -23,4 +23,9 @@ jobs:
     - name: Login to Firebase
       run: firebase login --no-localhost
     - name: Deploy to Firebase Hosting
-      run: firebase deploy --only hosting --project ${{ secrets.FIREBASE_PROJECT_ID }}
+      uses: FirebaseExtended/action-hosting-deploy@v0
+      with:
+        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TELEGRAM_BOT_FROM_ARTYPROF }}'
+        channelId: live
+        projectId: ${{ secrets.FIREBASE_PROJECT_ID }}
