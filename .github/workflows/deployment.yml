@@ -25,4 +25,4 @@ jobs:
         username: Arty_Prof
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: www.telegram-bot-api.somee.com/
-        local-dir: out
+        local-dir: out/
