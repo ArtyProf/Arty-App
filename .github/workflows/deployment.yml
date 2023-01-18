@@ -1,29 +1,26 @@
-name: Deploy to Heroku
+name: Deploy to Firebase Hosting
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Set up .NET
+    - name: Setup .NET Core
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 7.0.x
-
     - name: Build and Publish
       run: dotnet publish -c Release -o out
-
-    - name: Deploy to Firebase
-      uses: FirebaseExtended/action-hosting-deploy@v0
-      with:
-        repoToken: '${{ secrets.GITHUB_TOKEN }}'
-        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TELEGRAM_BOT_FROM_ARTYPROF }}'
-        projectId: telegram-bot-from-artyprof
+    - name: Install Firebase CLI
+      run: npm install -g firebase-tools
+    - name: Login to Firebase
+      run: firebase login --no-localhost
+    - name: Deploy to Firebase Hosting
+      run: firebase deploy --only hosting --project ${{ secrets.FIREBASE_PROJECT_ID }}
