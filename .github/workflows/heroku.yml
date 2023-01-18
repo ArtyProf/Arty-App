@@ -1,0 +1,29 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Build and Publish
+      run: dotnet publish -c Release -o out
+
+    - name: Deploy to Heroku
+      uses: heroku/deploy-heroku-action@v2
+      with:
+        app-name: TelegramBot
+        api-key: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:push web -a your-app-name
