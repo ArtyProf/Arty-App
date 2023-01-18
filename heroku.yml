@@ -1,7 +1,0 @@
-build:
-  - heroku/dotnet:7.0
-  - dotnet restore
-  - dotnet build -c Release -r linux-x64
-
-run:
-  - dotnet bin/Release/netcoreapp7.0/TelegramBot.dll
