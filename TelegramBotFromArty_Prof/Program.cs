@@ -1,5 +1,8 @@
 ﻿using Telegram.Bot;
+using TelegramBotfromArtyProf;
 using TelegramBotfromArtyProf.Configuration;
+using TelegramBotfromArtyProf.Controllers;
+using TelegramBotfromArtyProf.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,11 +14,16 @@ var botConfiguration = botConfigurationSection.Get<BotConfiguration>() ?? throw 
 
 
 builder.Services.AddHttpClient("telegram_bot_client")
-                .AddTypedClient<ITelegramBotClient>((httpClient) =>
+                .AddTypedClient<ITelegramBotClient>((httpClient, sp) =>
                 {
-                    TelegramBotClientOptions options = new(botConfiguration.BotToken);
+                    BotConfiguration? botConfig = sp.GetConfiguration<BotConfiguration>();
+                    TelegramBotClientOptions options = new(botConfig.BotToken);
                     return new TelegramBotClient(options, httpClient);
                 });
+
+builder.Services.AddScoped<UpdateHandlers>();
+
+builder.Services.AddHostedService<ConfigureWebhook>();
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 
@@ -23,8 +31,8 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 var app = builder.Build();
 
 // Map APIs
+app.MapBotWebhookRoute<BotController>(route: botConfiguration.Route);
 app.MapControllers();
-app.MapGet("/", () => $"Hello World! I am deployed! See token: {botConfiguration.BotToken}");
 
 // Start the Server
 app.Run();
