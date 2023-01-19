@@ -28,15 +28,24 @@ public class CurrencyHandler : ICurrencyHandler
     {
         _logger.LogInformation("Currency request started.");
         var messageText = message.Text ?? throw new ArgumentNullException();
-        var from = messageText.Split(new char[] { ' ', '@' })[1];
-        var to = messageText.Split(new char[] { ' ', '@' })[2];
-        var amount = messageText.Split(new char[] { ' ', '@' })[3] ?? 1.ToString();
 
-        if (string.IsNullOrEmpty(from) || string.IsNullOrEmpty(to))
+        if(messageText.Split(new char[] { ' ', '@' }).Length < 4)
         {
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
-                text: $"Currency from and/or to are not set.\n See example: /currency USD EUR 10",
+                text: $"Wrong currency format.\n See example: /currency USD EUR 10",
+                cancellationToken: cancellationToken);
+        }
+
+        var from = messageText.Split(new char[] { ' ', '@' })[1];
+        var to = messageText.Split(new char[] { ' ', '@' })[2];
+        var amount = messageText.Split(new char[] { ' ', '@' })[3];
+
+        if (string.IsNullOrEmpty(from) || string.IsNullOrEmpty(to) || string.IsNullOrEmpty(amount))
+        {
+            return await botClient.SendTextMessageAsync(
+                chatId: message.Chat.Id,
+                text: $"Currency from and/or to and/or amount are not set.\n See example: /currency USD EUR 10",
                 cancellationToken: cancellationToken);
         }
         var client = new RestClient($"https://api.apilayer.com/exchangerates_data/convert?to={to}&from={from}&amount={amount}");
