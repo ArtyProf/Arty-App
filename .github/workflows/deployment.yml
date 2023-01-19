@@ -20,6 +20,7 @@ jobs:
     - name: Replace values in appsettings.json
       run: |
         sed -i "s/\"BotToken\": \"[^\"]*\"/\"BotToken\": \"${{ secrets.BOT_TOKEN }}\"/g" TelegramBotFromArty_Prof/appsettings.json
+        sed -i "s/\"CurrencyExchangeKey\": \"[^\"]*\"/\"CurrencyExchangeKey\": \"${{ secrets.CURRENCY_API_KEY }}\"/g" TelegramBotFromArty_Prof/appsettings.json
     - name: Build and publish
       run: |
         dotnet publish -c Release -o out -p:AppsettingsFile=appsettings.json
@@ -27,7 +28,7 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@4.3.3
       with:
         server: ${{ secrets.FTP_SERVER }}
-        username: Arty_Prof
+        username: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: www.telegram-bot-api.somee.com/
-        local-dir: out/
+        server-dir: ${{ secrets.FTP_SERVER_DIR }}
+        local-dir: ${{ secrets.FTP_LOCAL_DIR }}
