@@ -1,20 +1,23 @@
 ﻿using Telegram.Bot.Exceptions;
-using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
+using TelegramBotfromArtyProf.Interfaces;
+using Telegram.Bot.Types.InlineQueryResults;
 
 namespace TelegramBotfromArtyProf.Services;
 
-public class UpdateHandlers
+public class BotBaseHandlers
 {
     private readonly ITelegramBotClient _botClient;
-    private readonly ILogger<UpdateHandlers> _logger;
+    private readonly ILogger<BotBaseHandlers> _logger;
+    private readonly ICurrencyHandler _currencyHandler;
 
-    public UpdateHandlers(ITelegramBotClient botClient, ILogger<UpdateHandlers> logger)
+    public BotBaseHandlers(ITelegramBotClient botClient, ILogger<BotBaseHandlers> logger, ICurrencyHandler currencyHandler)
     {
         _botClient = botClient;
         _logger = logger;
+        _currencyHandler = currencyHandler;
     }
 
     public Task HandleErrorAsync(Exception exception, CancellationToken cancellationToken)
@@ -50,9 +53,15 @@ public class UpdateHandlers
         if (message.Text is not { } messageText)
             return;
 
-        var action = messageText.Split(new char[] { ' ', '@' })[0] switch
+        if (messageText.Contains('@'))
+        {
+            messageText = messageText.Replace("@Arty_ProfBot", "");
+        }
+
+        var action = messageText.Split(' ')[0] switch
         {
             "/start" => SendGreetings(_botClient, message, cancellationToken),
+            "/currency" => _currencyHandler.SendCurrencyExchange(_botClient, message, cancellationToken),
             _ => Usage(_botClient, message, cancellationToken)
         };
         Message sentMessage = await action;
@@ -69,7 +78,8 @@ public class UpdateHandlers
         static async Task<Message> Usage(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
         {
             const string usage = "Usage:\n" +
-                                 "/start - Greeting";
+                                 "/start - Greeting\n" +
+                                 "/currency - Currency exchange";
 
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
