@@ -33,6 +33,7 @@ var app = builder.Build();
 // Map APIs
 app.MapBotWebhookRoute<BotController>(route: botConfiguration.Route);
 app.MapControllers();
+app.MapGet("/", () => "Bot is running");
 
 // Start the Server
 app.Run();
