@@ -37,7 +37,7 @@ var app = builder.Build();
 // Map APIs
 app.MapBotWebhookRoute<BotController>(route: botConfiguration.Route);
 app.MapControllers();
-app.MapGet("/", () => "Bot is running");
+app.MapGet("/", () => $"Bot is running. {currencyExchangeConfigation.Get<CurrencyExchangeConfiguration>().CurrencyExchangeKey}");
 
 // Start the Server
 app.Run();
