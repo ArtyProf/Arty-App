@@ -17,7 +17,7 @@ jobs:
         dotnet-version: 7.0.x
     - name: Replace values in appsettings.json
       run: |
-        sed -i "s/\"BotToken\": \"[^\"]*\"/\"{BOT_TOKEN}\": \"${{ secrets.FTP_SERVER }}\"/g" appsettings.json
+        sed -i "s/\"BotToken\": \"[^\"]*\"/\"{BOT_TOKEN}\": \"${{ secrets.FTP_SERVER }}\"/g" TelegramBotFromArty_Prof/appsettings.json
     - name: Build and publish
       run: |
         dotnet publish -c Release -o out -p:AppsettingsFile=appsettings.json
