@@ -9,3 +9,5 @@ Functionality is in development.
 ## Usage:
 
 /start - Greeting
+
+/currency - Currency Exchange rate. Example: /currency UAH USD 10
