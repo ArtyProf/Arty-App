@@ -9,7 +9,7 @@ public class BotController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post(
         [FromBody] Update update,
-        [FromServices] BotBaseHandlers handleUpdateService,
+        [FromServices] UpdateHandlers handleUpdateService,
         CancellationToken cancellationToken)
     {
         await handleUpdateService.HandleUpdateAsync(update, cancellationToken);

@@ -7,13 +7,13 @@ using Telegram.Bot.Types.InlineQueryResults;
 
 namespace TelegramBotfromArtyProf.Services;
 
-public class BotBaseHandlers
+public class UpdateHandlers
 {
     private readonly ITelegramBotClient _botClient;
-    private readonly ILogger<BotBaseHandlers> _logger;
+    private readonly ILogger<UpdateHandlers> _logger;
     private readonly ICurrencyHandler _currencyHandler;
 
-    public BotBaseHandlers(ITelegramBotClient botClient, ILogger<BotBaseHandlers> logger, ICurrencyHandler currencyHandler)
+    public UpdateHandlers(ITelegramBotClient botClient, ILogger<UpdateHandlers> logger, ICurrencyHandler currencyHandler)
     {
         _botClient = botClient;
         _logger = logger;
