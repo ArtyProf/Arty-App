@@ -6,6 +6,7 @@
     <RootNamespace>TelegramBotfromArtyProf</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>8784937a-8365-4da0-84d2-932f55ad3959</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

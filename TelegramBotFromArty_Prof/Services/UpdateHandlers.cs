@@ -50,7 +50,7 @@ public class UpdateHandlers
         if (message.Text is not { } messageText)
             return;
 
-        var action = messageText.Split(' ')[0] switch
+        var action = messageText.Split(new char[] { ' ', '@' })[0] switch
         {
             "/start" => SendGreetings(_botClient, message, cancellationToken),
             _ => Usage(_botClient, message, cancellationToken)
@@ -62,7 +62,7 @@ public class UpdateHandlers
         {
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
-                text: "Greeting! You done first step!",
+                text: "Greeting! You do your first step!",
                 cancellationToken: cancellationToken);
         }
 
