@@ -1,4 +1,4 @@
-# Telegram-bot-from-Arty_Prof
+# Telegram bot from Arty_Prof
 
 Simple telegram bot: https://t.me/Arty_ProfBot
 
