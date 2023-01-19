@@ -2,6 +2,7 @@
 using TelegramBotfromArtyProf;
 using TelegramBotfromArtyProf.Configuration;
 using TelegramBotfromArtyProf.Controllers;
+using TelegramBotfromArtyProf.Interfaces;
 using TelegramBotfromArtyProf.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,7 @@ builder.Services.AddHttpClient("telegram_bot_client")
                 });
 
 builder.Services.AddScoped<BotBaseHandlers>();
+builder.Services.AddScoped<ICurrencyHandler, CurrencyHandler>();
 
 builder.Services.AddHostedService<ConfigureWebhook>();
 
