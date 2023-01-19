@@ -2,6 +2,7 @@
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
+using TelegramBotfromArtyProf.Interfaces;
 
 namespace TelegramBotfromArtyProf.Services;
 
@@ -9,11 +10,13 @@ public class BotBaseHandlers
 {
     private readonly ITelegramBotClient _botClient;
     private readonly ILogger<BotBaseHandlers> _logger;
+    private readonly ICurrencyHandler _currencyHandler;
 
-    public BotBaseHandlers(ITelegramBotClient botClient, ILogger<BotBaseHandlers> logger)
+    public BotBaseHandlers(ITelegramBotClient botClient, ILogger<BotBaseHandlers> logger, ICurrencyHandler currencyHandler)
     {
         _botClient = botClient;
         _logger = logger;
+        _currencyHandler = currencyHandler;
     }
 
     public Task HandleErrorAsync(Exception exception, CancellationToken cancellationToken)
@@ -49,7 +52,7 @@ public class BotBaseHandlers
         var action = messageText.Split(new char[] { ' ', '@' })[0] switch
         {
             "/start" => SendGreetings(_botClient, message, cancellationToken),
-            "/currency" => SendGreetings(_botClient, message, cancellationToken),
+            "/currency" => _currencyHandler.SendCurrencyExchange(_botClient, message, cancellationToken),
             _ => Usage(_botClient, message, cancellationToken)
         };
         Message sentMessage = await action;
@@ -66,7 +69,8 @@ public class BotBaseHandlers
         static async Task<Message> Usage(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
         {
             const string usage = "Usage:\n" +
-                                 "/start - Greeting";
+                                 "/start - Greeting\n" +
+                                 "/currency - Currency exchange";
 
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,

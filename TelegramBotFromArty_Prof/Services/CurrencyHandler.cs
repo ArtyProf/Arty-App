@@ -1,10 +1,11 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot;
 using TelegramBotfromArtyProf.Configuration;
+using TelegramBotfromArtyProf.Interfaces;
 
 namespace TelegramBotfromArtyProf.Services;
 
-public class CurrencyHandler
+public class CurrencyHandler : ICurrencyHandler
 {
     private readonly CurrencyExchangeConfiguration _currencyExchangeConfiguration;
 
@@ -13,7 +14,7 @@ public class CurrencyHandler
         _currencyExchangeConfiguration = currencyExchangeConfiguration;
     }
 
-    public async Task<Message> SendGreetings(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
+    public async Task<Message> SendCurrencyExchange(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
     {
 
         return await botClient.SendTextMessageAsync(
