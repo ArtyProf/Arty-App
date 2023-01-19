@@ -9,6 +9,7 @@ using System.Text;
 using RestSharp;
 using System.Net;
 using System.Text.Json;
+using TelegramBotfromArtyProf.Helpers;
 
 namespace TelegramBotfromArtyProf.Services;
 
@@ -28,8 +29,8 @@ public class CurrencyHandler : ICurrencyHandler
     {
         _logger.LogInformation("Currency request started.");
         var messageText = message.Text ?? throw new ArgumentNullException();
-
-        if(messageText.Split(new char[] { ' ', '@' }).Length < 4)
+        
+        if (messageText.Split(' ').Length < 4)
         {
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
@@ -37,15 +38,15 @@ public class CurrencyHandler : ICurrencyHandler
                 cancellationToken: cancellationToken);
         }
 
-        var from = messageText.Split(new char[] { ' ', '@' })[1];
-        var to = messageText.Split(new char[] { ' ', '@' })[2];
-        var amount = messageText.Split(new char[] { ' ', '@' })[3];
+        var from = messageText.Split(' ')[1];
+        var to = messageText.Split(' ')[2];
+        var amount = messageText.Split(' ')[3];
 
-        if (string.IsNullOrEmpty(from) || string.IsNullOrEmpty(to) || string.IsNullOrEmpty(amount))
+        if (CurrencyHelper.TryGetCurrencySymbol(from, out var fromSymbol) || CurrencyHelper.TryGetCurrencySymbol(to, out var toSymbol))
         {
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
-                text: $"Currency from and/or to and/or amount are not set.\nSee an example: /currency USD EUR 10",
+                text: $"Currency from and/or to are invalid.\nSee an example: /currency USD EUR 10",
                 cancellationToken: cancellationToken);
         }
         var client = new RestClient($"https://api.apilayer.com/exchangerates_data/convert?to={to}&from={from}&amount={amount}");
@@ -64,9 +65,9 @@ public class CurrencyHandler : ICurrencyHandler
 
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
-                text: $"Currency rate for today from {from} to {to}:\n" +
+                text: $"Currency rate for today from {from} {fromSymbol} to {to} {toSymbol}:\n" +
                 $"Rate: {rate}\n" +
-                $"Result: {result}",
+                $"Result: {result} {toSymbol}",
                 cancellationToken: cancellationToken);
         }
 

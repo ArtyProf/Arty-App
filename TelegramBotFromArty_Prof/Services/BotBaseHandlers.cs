@@ -53,7 +53,12 @@ public class BotBaseHandlers
         if (message.Text is not { } messageText)
             return;
 
-        var action = messageText.Split(new char[] { ' ', '@' })[0] switch
+        if (messageText.Contains('@'))
+        {
+            messageText = messageText.Replace("@Arty_ProfBot", "");
+        }
+
+        var action = messageText.Split(' ')[0] switch
         {
             "/start" => SendGreetings(_botClient, message, cancellationToken),
             "/currency" => _currencyHandler.SendCurrencyExchange(_botClient, message, cancellationToken),
