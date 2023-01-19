@@ -33,7 +33,7 @@ public class CurrencyHandler : ICurrencyHandler
         {
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
-                text: $"Wrong currency format.\n See example: /currency USD EUR 10",
+                text: $"Wrong currency format.\nSee an example: /currency USD EUR 10",
                 cancellationToken: cancellationToken);
         }
 
@@ -45,7 +45,7 @@ public class CurrencyHandler : ICurrencyHandler
         {
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
-                text: $"Currency from and/or to and/or amount are not set.\n See example: /currency USD EUR 10",
+                text: $"Currency from and/or to and/or amount are not set.\nSee an example: /currency USD EUR 10",
                 cancellationToken: cancellationToken);
         }
         var client = new RestClient($"https://api.apilayer.com/exchangerates_data/convert?to={to}&from={from}&amount={amount}");
@@ -59,7 +59,7 @@ public class CurrencyHandler : ICurrencyHandler
         if (response.StatusCode == HttpStatusCode.OK)
         {
             var responseBody = JsonConvert.DeserializeObject<dynamic>(response.Content);
-            rate = responseBody?.responseBody?.rate;
+            rate = responseBody?.info?.rate;
             result = responseBody?.result;
 
             return await botClient.SendTextMessageAsync(
