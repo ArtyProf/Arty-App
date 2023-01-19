@@ -12,6 +12,8 @@ builder.Services.Configure<BotConfiguration>(botConfigurationSection);
 
 var botConfiguration = botConfigurationSection.Get<BotConfiguration>() ?? throw new ArgumentNullException(nameof(BotConfiguration));
 
+var currencyExchangeConfigation = builder.Configuration.GetSection(nameof(CurrencyExchangeConfiguration));
+builder.Services.Configure<CurrencyExchangeConfiguration>(currencyExchangeConfigation);
 
 builder.Services.AddHttpClient("telegram_bot_client")
                 .AddTypedClient<ITelegramBotClient>((httpClient, sp) =>
@@ -21,7 +23,7 @@ builder.Services.AddHttpClient("telegram_bot_client")
                     return new TelegramBotClient(options, httpClient);
                 });
 
-builder.Services.AddScoped<UpdateHandlers>();
+builder.Services.AddScoped<BotBaseHandlers>();
 
 builder.Services.AddHostedService<ConfigureWebhook>();
 
