@@ -24,7 +24,7 @@ builder.Services.AddHttpClient("telegram_bot_client")
                     return new TelegramBotClient(options, httpClient);
                 });
 
-builder.Services.AddScoped<UpdateHandlers>();
+builder.Services.AddScoped<BotBaseHandlers>();
 builder.Services.AddScoped<ICurrencyHandler, CurrencyHandler>();
 
 builder.Services.AddHostedService<ConfigureWebhook>();
@@ -37,7 +37,7 @@ var app = builder.Build();
 // Map APIs
 app.MapBotWebhookRoute<BotController>(route: botConfiguration.Route);
 app.MapControllers();
-app.MapGet("/", () => $"Bot is running. {currencyExchangeConfigation.Get<CurrencyExchangeConfiguration>().CurrencyExchangeKey}");
+app.MapGet("/", () => $"Bot is running");
 
 // Start the Server
 app.Run();
