@@ -42,7 +42,7 @@ public class CurrencyHandler : ICurrencyHandler
         var to = messageText.Split(' ')[2];
         var amount = messageText.Split(' ')[3];
 
-        if (CurrencyHelper.TryGetCurrencySymbol(from, out var fromSymbol) || CurrencyHelper.TryGetCurrencySymbol(to, out var toSymbol))
+        if (!CurrencyHelper.TryGetCurrencySymbol(from, out var fromSymbol) || !CurrencyHelper.TryGetCurrencySymbol(to, out var toSymbol))
         {
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
