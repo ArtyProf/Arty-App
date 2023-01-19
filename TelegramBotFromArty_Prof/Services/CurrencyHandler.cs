@@ -54,8 +54,8 @@ public class CurrencyHandler : ICurrencyHandler
         request.AddHeader("apikey", _currencyExchangeConfiguration.CurrencyExchangeKey);
 
         var response = client.Execute(request);
-        int rate;
-        int result;
+        float rate;
+        float result;
         if (response.StatusCode == HttpStatusCode.OK)
         {
             var responseBody = JsonConvert.DeserializeObject<dynamic>(response.Content);
