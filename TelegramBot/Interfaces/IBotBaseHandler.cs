@@ -9,5 +9,5 @@ public interface IBotBaseHandler
 {
     Task HandleErrorAsync(Exception exception, CancellationToken cancellationToken);
 
-    Task HandleUpdateAsync(Update update, CancellationToken cancellationToken)
+    Task HandleUpdateAsync(Update update, CancellationToken cancellationToken);
 }
