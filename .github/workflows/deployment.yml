@@ -37,7 +37,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-
+    - name: Set environment variables
+      run: |
+        echo set BotConfiguration__BotToken=${{ secrets.BOT_TOKEN }} >> "%SystemDrive%\ProgramData\chocolatey\bin\setenv.cmd"
+        echo set BotConfiguration__HostAddress=${{ secrets.AZURE_HOST }} >> "%SystemDrive%\ProgramData\chocolatey\bin\setenv.cmd"
+        echo set CurrencyExchangeConfiguration__CurrencyExchangeKey=${{ secrets.CURRENCY_API_KEY }} >> "%SystemDrive%\ProgramData\chocolatey\bin\setenv.cmd"
     - name: 'Resolve Project Dependencies Using Dotnet'
       shell: pwsh
       run: |
@@ -50,3 +54,7 @@ jobs:
         app-name: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
         package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+        app-settings: |
+          BotConfiguration__BotToken=${{ secrets.BOT_TOKEN }}
+          BotConfiguration__HostAddress=${{ secrets.AZURE_HOST }}
+          CurrencyExchangeConfiguration__CurrencyExchangeKey=${{ secrets.CURRENCY_API_KEY }}
