@@ -2,18 +2,22 @@
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
-using TelegramBotfromArtyProf.Interfaces;
+using TelegramBot.Interfaces;
 using Telegram.Bot.Types.InlineQueryResults;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace TelegramBotfromArtyProf.Services;
+namespace TelegramBot.Services;
 
-public class BotBaseHandlers
+public class BotBaseHandler : IBotBaseHandler
 {
     private readonly ITelegramBotClient _botClient;
-    private readonly ILogger<BotBaseHandlers> _logger;
+    private readonly ILogger<BotBaseHandler> _logger;
     private readonly ICurrencyHandler _currencyHandler;
 
-    public BotBaseHandlers(ITelegramBotClient botClient, ILogger<BotBaseHandlers> logger, ICurrencyHandler currencyHandler)
+    public BotBaseHandler(ITelegramBotClient botClient, ILogger<BotBaseHandler> logger, ICurrencyHandler currencyHandler)
     {
         _botClient = botClient;
         _logger = logger;

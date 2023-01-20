@@ -1,46 +1,61 @@
-name: Build and Deploy on Somee.com
+name: Build and Deploy on Azure
 
 on:
   push:
     branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: ${{ secrets.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
 
 jobs:
-  prepare:
-    runs-on: ubuntu-latest
+  build-and-test:
+    runs-on: windows-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
+    - name: 'Checkout code'
+      uses: actions/checkout@v3
+
+    - name: 'Setup .NET Core'
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x
-  build:
-    needs: prepare
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+        dotnet-version: 6.0.x
+
+    - name: 'Build and package'
+      shell: pwsh
+      run: dotnet build --configuration Release
+
+    - name: 'Test'
+      shell: pwsh
+      run: dotnet test --configuration Release
+
   deploy:
-    needs: [prepare, build]
-    runs-on: ubuntu-latest
+    needs: build-and-test
+    runs-on: windows-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Replace values in appsettings.json
+    - name: 'Checkout code'
+      uses: actions/checkout@v3
+    - name: 'Resolve Project Dependencies Using Dotnet'
+      shell: pwsh
       run: |
-        sed -i "s/\"BotToken\": \"[^\"]*\"/\"BotToken\": \"${{ secrets.BOT_TOKEN }}\"/g" TelegramBotFromArty_Prof/appsettings.json
-        sed -i "s/\"CurrencyExchangeKey\": \"[^\"]*\"/\"CurrencyExchangeKey\": \"${{ secrets.CURRENCY_API_KEY }}\"/g" TelegramBotFromArty_Prof/appsettings.json
-    - name: Build and publish
-      run: |
-        dotnet publish -c Release -o out -p:AppsettingsFile=appsettings.json
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        dotnet build --configuration Release --output ./output
+        popd
+    - name: 'Login to Azure'
+      uses: azure/login@v1
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USER }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: ${{ secrets.FTP_SERVER_DIR }}
-        local-dir: ${{ secrets.FTP_LOCAL_DIR }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: 'Set environment variables'
+      shell: pwsh
+      run: >
+        az functionapp config appsettings set --name ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
+        --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --settings BotConfiguration__BotToken=${{ secrets.BOT_TOKEN }}
+        BotConfiguration__HostAddress=${{ secrets.AZURE_HOST }}
+        CurrencyExchangeConfiguration__CurrencyExchangeKey=${{ secrets.CURRENCY_API_KEY }}
+    - name: 'Run Azure Functions action'
+      uses: Azure/functions-action@v1
+      with:
+        app-name: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
+        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'

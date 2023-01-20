@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "CurrencyExchangeConfiguration__CurrencyExchangeKey": "{API_KEY}",
+    "BotConfiguration__BotToken": "{BOT_TOKEN}",
+    "BotConfiguration__HostAddress": "{HOST_URL}"
+  }
+}

@@ -1,7 +1,9 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot;
+using System.Threading.Tasks;
+using System.Threading;
 
-namespace TelegramBotfromArtyProf.Interfaces;
+namespace TelegramBot.Interfaces;
 
 public interface ICurrencyHandler
 {
