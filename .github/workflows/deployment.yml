@@ -5,42 +5,39 @@ on:
     branches: [ "master" ]
 
 jobs:
-  prepare:
+  build-and-test:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET Core
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x
-  build:
-    needs: prepare
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
+        dotnet-version: 6.0.x
+
+    - name: Build and package
+      run: dotnet build --configuration Release
+
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --configuration Release
+
   deploy:
-    needs: [prepare, build]
+    needs: build-and-test
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Replace values in appsettings.json
-      run: |
-        sed -i "s/\"BotToken\": \"[^\"]*\"/\"BotToken\": \"${{ secrets.BOT_TOKEN }}\"/g" TelegramBotFromArty_Prof/appsettings.json
-        sed -i "s/\"CurrencyExchangeKey\": \"[^\"]*\"/\"CurrencyExchangeKey\": \"${{ secrets.CURRENCY_API_KEY }}\"/g" TelegramBotFromArty_Prof/appsettings.json
-    - name: Build and publish
-      run: |
-        dotnet publish -c Release -o out -p:AppsettingsFile=appsettings.json
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Login to Azure
+      uses: azure/login@v1
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USER }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: ${{ secrets.FTP_SERVER_DIR }}
-        local-dir: ${{ secrets.FTP_LOCAL_DIR }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy to Azure Function App
+      uses: azure/functions-action@v1
+      with:
+        app-name: my-function-app
+        package: ${{ env.GITHUB_WORKSPACE }}/bin/Release/net6.0/publish
