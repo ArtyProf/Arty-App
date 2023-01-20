@@ -14,19 +14,19 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
+    - name: 'Checkout code'
       uses: actions/checkout@v3
 
-    - name: Setup .NET Core
+    - name: 'Setup .NET Core'
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
 
-    - name: Build and package
+    - name: 'Build and package'
       shell: pwsh
       run: dotnet build --configuration Release
 
-    - name: Test
+    - name: 'Test'
       shell: pwsh
       run: dotnet test --configuration Release
 
@@ -35,7 +35,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
+    - name: 'Checkout code'
       uses: actions/checkout@v3
     - name: 'Resolve Project Dependencies Using Dotnet'
       shell: pwsh
@@ -43,13 +43,19 @@ jobs:
         pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
         dotnet build --configuration Release --output ./output
         popd
+    - name: 'Login to Azure'
+      uses: azure/login@v1
+      with:
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+    - name: 'Set environment variables'
+      shell: pwsh
+      run: |
+        az functionapp config appsettings set --name ${{ secrets.AZURE_FUNCTIONAPP_NAME }} --resource-group 
+        telegram-bot --settings BotConfiguration__BotToken=${{ secrets.BOT_TOKEN }} 
+        BotConfiguration__HostAddress=${{ secrets.AZURE_HOST }} 
+        CurrencyExchangeConfiguration__CurrencyExchangeKey=${{ secrets.CURRENCY_API_KEY }}
     - name: 'Run Azure Functions action'
       uses: Azure/functions-action@v1
       with:
         app-name: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
         package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
-        app-settings: |
-          BotConfiguration__BotToken=${{ secrets.BOT_TOKEN }}
-          BotConfiguration__HostAddress=${{ secrets.AZURE_HOST }}
-          CurrencyExchangeConfiguration__CurrencyExchangeKey=${{ secrets.CURRENCY_API_KEY }}
