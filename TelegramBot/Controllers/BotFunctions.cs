@@ -27,7 +27,7 @@ namespace TelegramBot.Controllers
         {
             _botBaseHandler = botBaseHandler;
             _botConfiguration = botConfiguration.Value;
-            _botClient = new TelegramBotClient(Environment.GetEnvironmentVariable(_botConfiguration.BotToken));
+            _botClient = new TelegramBotClient(_botConfiguration.BotToken);
         }
 
         [FunctionName(nameof(Setup))]
