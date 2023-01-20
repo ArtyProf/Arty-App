@@ -1,11 +1,8 @@
-﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+﻿using AzureFunctions.Extensions.Swashbuckle;
+using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections;
-using Telegram.Bot;
+using System.Reflection;
 using TelegramBot.Configuration;
-using TelegramBot.Controllers;
 using TelegramBot.Interfaces;
 using TelegramBot.Services;
 
@@ -22,11 +19,6 @@ public class Startup : FunctionsStartup
         builder.Services.Configure<CurrencyExchangeConfiguration>(builder.GetContext().Configuration.GetSection(nameof(CurrencyExchangeConfiguration)));
         builder.Services.Configure<BotConfiguration>(builder.GetContext().Configuration.GetSection(nameof(BotConfiguration)));
 
-        var serviceProvider = builder.Services.BuildServiceProvider();
-
-        var botConfiguration = serviceProvider.GetRequiredService<IOptions<BotConfiguration>>().Value;
-        var bot = new TelegramBotClient(botConfiguration.BotToken);
-        var webhookUrl = $"{botConfiguration.HostAddress}/api/{nameof(BotFunction)}";
-        bot.SetWebhookAsync(webhookUrl);
+        builder.AddSwashBuckle(Assembly.GetExecutingAssembly());
     }
 }
