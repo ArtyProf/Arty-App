@@ -2,7 +2,9 @@
 
 Simple telegram bot: https://t.me/Arty_ProfBot
 
-CI/CD is set up for Somee.com hosting.
+Hosted on Azure Functions.
+
+CI/CD is set up for Azure.
 
 Functionality is in development.
 

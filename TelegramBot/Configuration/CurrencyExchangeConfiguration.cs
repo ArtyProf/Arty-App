@@ -2,5 +2,5 @@
 
 public class CurrencyExchangeConfiguration
 {
-    public string CurrencyExchangeKey { get; init; } = default!;
+    public string CurrencyExchangeKey { get; set; }
 }

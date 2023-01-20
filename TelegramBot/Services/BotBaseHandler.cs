@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace TelegramBot.Services;
 
-public class BotBaseHandlers
+public class BotBaseHandler : IBotBaseHandler
 {
     private readonly ITelegramBotClient _botClient;
-    private readonly ILogger<BotBaseHandlers> _logger;
+    private readonly ILogger<BotBaseHandler> _logger;
     private readonly ICurrencyHandler _currencyHandler;
 
-    public BotBaseHandlers(ITelegramBotClient botClient, ILogger<BotBaseHandlers> logger, ICurrencyHandler currencyHandler)
+    public BotBaseHandler(ITelegramBotClient botClient, ILogger<BotBaseHandler> logger, ICurrencyHandler currencyHandler)
     {
         _botClient = botClient;
         _logger = logger;
