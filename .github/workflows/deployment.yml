@@ -38,10 +38,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     - name: Set environment variables
+      shell: pwsh
       run: |
         echo set BotConfiguration__BotToken=${{ secrets.BOT_TOKEN }} >> "$env:ProgramData\chocolatey\bin\setenv.cmd"
         echo set BotConfiguration__HostAddress=${{ secrets.AZURE_HOST }} >> "$env:ProgramData\chocolatey\bin\setenv.cmd"
         echo set CurrencyExchangeConfiguration__CurrencyExchangeKey=${{ secrets.CURRENCY_API_KEY }} >> "$env:ProgramData\chocolatey\bin\setenv.cmd"
+    - name: Publish
       shell: pwsh
       run: |
         pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
