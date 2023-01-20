@@ -49,10 +49,10 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'Set environment variables'
       shell: pwsh
-      run: |
-        az functionapp config appsettings set --name ${{ secrets.AZURE_FUNCTIONAPP_NAME }} --resource-group 
-        telegram-bot --settings BotConfiguration__BotToken=${{ secrets.BOT_TOKEN }} 
-        BotConfiguration__HostAddress=${{ secrets.AZURE_HOST }} 
+      run: >
+        az functionapp config appsettings set --name ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
+        --resource-group telegram-bot --settings BotConfiguration__BotToken=${{ secrets.BOT_TOKEN }}
+        BotConfiguration__HostAddress=${{ secrets.AZURE_HOST }}
         CurrencyExchangeConfiguration__CurrencyExchangeKey=${{ secrets.CURRENCY_API_KEY }}
     - name: 'Run Azure Functions action'
       uses: Azure/functions-action@v1
