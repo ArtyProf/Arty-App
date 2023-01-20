@@ -46,9 +46,7 @@ jobs:
     - name: 'Login to Azure'
       uses: azure/login@v1
       with:
-        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
-    - name: 'Set environment variables'
-      shell: pwsh
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
       run: |
         az functionapp config appsettings set --name ${{ secrets.AZURE_FUNCTIONAPP_NAME }} --resource-group 
         telegram-bot --settings BotConfiguration__BotToken=${{ secrets.BOT_TOKEN }} 
