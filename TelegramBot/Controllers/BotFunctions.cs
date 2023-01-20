@@ -19,15 +19,16 @@ namespace TelegramBot.Controllers
     public class BotFunctions
     {
         private readonly IBotBaseHandler _botBaseHandler;
-        private readonly TelegramBotClient _botClient;
+        private readonly ITelegramBotClient _botClient;
         private readonly BotConfiguration _botConfiguration;
 
         public BotFunctions(IBotBaseHandler botBaseHandler,
+            ITelegramBotClient botClient,
             IOptions<BotConfiguration> botConfiguration)
         {
             _botBaseHandler = botBaseHandler;
+            _botClient = botClient;
             _botConfiguration = botConfiguration.Value;
-            _botClient = new TelegramBotClient(_botConfiguration.BotToken);
         }
 
         [FunctionName(nameof(Setup))]
