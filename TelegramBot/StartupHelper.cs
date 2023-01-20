@@ -9,7 +9,8 @@ public static class StartupHelper
     {
         return new CurrencyExchangeConfiguration
         {
-            CurrencyExchangeKey = Environment.GetEnvironmentVariable(nameof(CurrencyExchangeConfiguration.CurrencyExchangeKey))
+            CurrencyExchangeKey = Environment.GetEnvironmentVariable(
+                $"{nameof(CurrencyExchangeConfiguration)}__{nameof(CurrencyExchangeConfiguration.CurrencyExchangeKey)}")
         };
     }
 

@@ -1,7 +1,15 @@
 {
-    "IsEncrypted": false,
-    "Values": {
-        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-        "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "BotConfiguration": {
+      "BotToken": "{BOT_TOKEN}",
+      "HostAddress": "https://telegram-bot-api.somee.com/",
+      "Route": ""
+    },
+    "CurrencyExchangeConfiguration": {
+      "CurrencyExchangeKey": "{CURRENCY_API_KEY}"
     }
+  }
 }

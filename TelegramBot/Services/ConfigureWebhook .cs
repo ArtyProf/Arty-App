@@ -1,9 +1,15 @@
 ﻿using Microsoft.Extensions.Options;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
-using TelegramBotfromArtyProf.Configuration;
+using TelegramBot.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
+using System.Threading;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace TelegramBotfromArtyProf.Services;
+namespace TelegramBot.Services;
 
 public class ConfigureWebhook : IHostedService
 {

@@ -2,10 +2,14 @@
 using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types;
 using Telegram.Bot;
-using TelegramBotfromArtyProf.Interfaces;
+using TelegramBot.Interfaces;
 using Telegram.Bot.Types.InlineQueryResults;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace TelegramBotfromArtyProf.Services;
+namespace TelegramBot.Services;
 
 public class BotBaseHandlers
 {

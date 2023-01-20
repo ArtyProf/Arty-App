@@ -11,7 +11,7 @@ using Microsoft.VisualBasic;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace TelegramBot
+namespace TelegramBot.Controllers
 {
     public static class BotFunction
     {

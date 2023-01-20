@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using System;
 
-namespace TelegramBotfromArtyProf;
+namespace TelegramBot;
 
 public static class Extensions
 {
-    public static T GetConfiguration<T>(this IServiceProvider serviceProvider)
+    /*public static T GetConfiguration<T>(this IServiceProvider serviceProvider)
         where T : class
     {
         var o = serviceProvider.GetService<IOptions<T>>();
@@ -13,8 +15,8 @@ public static class Extensions
 
         return o.Value;
     }
-
-    public static ControllerActionEndpointConventionBuilder MapBotWebhookRoute<T>(
+*/
+    /*public static ControllerActionEndpointConventionBuilder MapBotWebhookRoute<T>(
         this IEndpointRouteBuilder endpoints,
         string route)
     {
@@ -25,5 +27,5 @@ public static class Extensions
             name: "bot_webhook",
             pattern: route,
             defaults: new { controller = controllerName, action = actionName });
-    }
+    }*/
 }
