@@ -1,10 +1,22 @@
 name: SonarCloud Check
 
 on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+    types: [opened, synchronize, reopened]
 
 jobs:
   sonarcloud:
@@ -13,7 +25,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     - name: Setup SonarCloud
-      uses: sonarsource/sonarcloud-github-action@v1
+      uses: sonarsource/sonarcloud-github-action@master
       with:
         sonarcloud_organization: ${{ secrets.SONAR_ORGANIZATION }}
         sonarcloud_token: ${{ secrets.SONAR_TOKEN }}
