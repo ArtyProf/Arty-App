@@ -1,0 +1,27 @@
+name: SonarCloud Check
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  sonarcloud:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Setup SonarCloud
+      uses: sonarsource/sonarcloud-github-action@v1
+      with:
+        sonarcloud_organization: ${{ secrets.SONAR_ORGANIZATION }}
+        sonarcloud_token: ${{ secrets.SONAR_TOKEN }}
+    - name: Analyze with SonarCloud
+      run: sonar-scanner begin /k:"your-project-key" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.azurefunctions.analyze.skip=false
+    - name: Build solution
+      run: dotnet build --configuration Release
+    - name: Run tests
+      run: dotnet test --configuration Release
+    - name: End analysis
+      run: sonar-scanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
