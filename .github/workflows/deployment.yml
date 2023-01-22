@@ -12,8 +12,6 @@ on:
         - info
         - warning
         - debug
-  push:
-    branches: [ "master" ]
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: ${{ secrets.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
