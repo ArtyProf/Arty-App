@@ -20,12 +20,12 @@ on:
 
 jobs:
   sonarcloud:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
     - name: Setup SonarCloud
-      uses: SonarSource/sonarcloud-github-action@v2
+      uses: sonarsource/sonarcloud-github-action@master
       with:
         sonarcloud_organization: ${{ secrets.SONAR_ORGANIZATION }}
         sonarcloud_token: ${{ secrets.SONAR_TOKEN }}
