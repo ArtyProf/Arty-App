@@ -32,7 +32,5 @@ public class Startup : FunctionsStartup
                 });
 
         builder.AddSwashBuckle(Assembly.GetExecutingAssembly());
-        var sgfd = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8 };
-        var res = sgfd.Where(x => x>7).FirstOrDefault();
     }
 }
