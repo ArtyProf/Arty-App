@@ -3,6 +3,8 @@ using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Telegram.Bot;
 using TelegramBot.Configuration;
@@ -30,5 +32,7 @@ public class Startup : FunctionsStartup
                 });
 
         builder.AddSwashBuckle(Assembly.GetExecutingAssembly());
+        var sgfd = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8 };
+        var res = sgfd.Where(x => x>7).FirstOrDefault();
     }
 }
