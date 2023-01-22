@@ -27,7 +27,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Setup SonarCloud
-      uses: sonarsource/sonarcloud-github-action@v1.8
+      uses: sonarsource/sonarcloud-github-action@master
       with:
         args: >
           -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
