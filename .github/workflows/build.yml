@@ -24,11 +24,13 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
     - name: Setup SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
-      with:
-        sonarcloud_organization: ${{ secrets.SONAR_ORGANIZATION }}
-        sonarcloud_token: ${{ secrets.SONAR_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     - name: Analyze with SonarCloud
       run: sonar-scanner begin /k:"your-project-key" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.azurefunctions.analyze.skip=false
     - name: Build solution
