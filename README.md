@@ -17,3 +17,5 @@ Functionality is in development.
 /start - Greeting
 
 /currency - Currency Exchange rate. Example: /currency UAH USD 10
+
+/question - Ask any question. Based on Open AI (ChatGPT). Example: /question Top movie titles 2023

@@ -25,7 +25,7 @@ public class QuestionHandler : IQuestionHandler
     {
         _logger.LogInformation("Answer the question started.");
 
-        var result = await _openAIClient.Completions.CreateCompletionAsync(message.Text, top_p: 1,model: "text-davinci-003", max_tokens: 256);
+        var result = await _openAIClient.Completions.CreateCompletionAsync(message.Text, top_p: 1,model: "text-davinci-003", max_tokens: 2048);
         return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
                 text: result.ToString(),
