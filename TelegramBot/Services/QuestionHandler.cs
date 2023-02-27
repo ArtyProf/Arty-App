@@ -24,7 +24,7 @@ public class QuestionHandler : IQuestionHandler
     public async Task<Message> AnswerTheQuestion(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Answer the question started.");
-        var messageText = message.Text ?? throw new ArgumentNullException();
+        var messageText = message.Text ?? throw new ArgumentNullException("Text is missing for the question.");
 
         var result = await _openAIClient.Completions.CreateCompletionAsync(messageText, temperature: 0.1);
         return await botClient.SendTextMessageAsync(

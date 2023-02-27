@@ -50,7 +50,7 @@ public class BotBaseHandler : IBotBaseHandler
             { CallbackQuery: { } callbackQuery } => BotOnCallbackQueryReceived(callbackQuery, cancellationToken),
             { InlineQuery: { } inlineQuery } => BotOnInlineQueryReceived(inlineQuery, cancellationToken),
             { ChosenInlineResult: { } chosenInlineResult } => BotOnChosenInlineResultReceived(chosenInlineResult, cancellationToken),
-            _ => UnknownUpdateHandlerAsync(update, cancellationToken)
+            _ => UnknownUpdateHandlerAsync(update)
         };
 
         await handler;
@@ -146,7 +146,7 @@ public class BotBaseHandler : IBotBaseHandler
             cancellationToken: cancellationToken);
     }
 
-    private Task UnknownUpdateHandlerAsync(Update update, CancellationToken cancellationToken)
+    private Task UnknownUpdateHandlerAsync(Update update)
     {
         _logger.LogInformation("Unknown update type: {UpdateType}", update.Type);
         return Task.CompletedTask;
