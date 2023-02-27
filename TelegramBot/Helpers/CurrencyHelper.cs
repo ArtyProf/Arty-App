@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
 
 namespace TelegramBot.Helpers;
 
 public static class CurrencyHelper
 {
-    private static IDictionary<string, string> map;
-    static CurrencyHelper()
+    public static bool TryGetCurrencySymbol(string ISOCurrencySymbol, out string symbol)
     {
-        map = CultureInfo
+        return CultureInfo
             .GetCultures(CultureTypes.AllCultures)
             .Where(c => !c.IsNeutralCulture)
             .Select(culture => {
@@ -24,10 +22,7 @@ public static class CurrencyHelper
             })
             .Where(ri => ri is not null)
             .GroupBy(ri => ri.ISOCurrencySymbol)
-            .ToDictionary(x => x.Key, x => x.First().CurrencySymbol);
-    }
-    public static bool TryGetCurrencySymbol(string ISOCurrencySymbol, out string symbol)
-    {
-        return map.TryGetValue(ISOCurrencySymbol, out symbol);
+            .ToDictionary(x => x.Key, x => x.First().CurrencySymbol)
+            .TryGetValue(ISOCurrencySymbol, out symbol);
     }
 }

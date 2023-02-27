@@ -16,12 +16,17 @@ public class BotBaseHandler : IBotBaseHandler
     private readonly ITelegramBotClient _botClient;
     private readonly ILogger<BotBaseHandler> _logger;
     private readonly ICurrencyHandler _currencyHandler;
+    private readonly IQuestionHandler _questionHandler;
 
-    public BotBaseHandler(ITelegramBotClient botClient, ILogger<BotBaseHandler> logger, ICurrencyHandler currencyHandler)
+    public BotBaseHandler(ITelegramBotClient botClient,
+        ILogger<BotBaseHandler> logger,
+        ICurrencyHandler currencyHandler,
+        IQuestionHandler questionHandler)
     {
         _botClient = botClient;
         _logger = logger;
         _currencyHandler = currencyHandler;
+        _questionHandler = questionHandler;
     }
 
     public Task HandleErrorAsync(Exception exception, CancellationToken cancellationToken)
@@ -45,7 +50,7 @@ public class BotBaseHandler : IBotBaseHandler
             { CallbackQuery: { } callbackQuery } => BotOnCallbackQueryReceived(callbackQuery, cancellationToken),
             { InlineQuery: { } inlineQuery } => BotOnInlineQueryReceived(inlineQuery, cancellationToken),
             { ChosenInlineResult: { } chosenInlineResult } => BotOnChosenInlineResultReceived(chosenInlineResult, cancellationToken),
-            _ => UnknownUpdateHandlerAsync(update, cancellationToken)
+            _ => UnknownUpdateHandlerAsync(update)
         };
 
         await handler;
@@ -62,13 +67,25 @@ public class BotBaseHandler : IBotBaseHandler
             messageText = messageText.Replace("@Arty_ProfBot", "");
         }
 
-        var action = messageText.Split(' ')[0] switch
+        var command = messageText.Split(' ');
+
+        Message sentMessage;
+        if (command.Length < 2)
         {
-            "/start" => SendGreetings(_botClient, message, cancellationToken),
-            "/currency" => _currencyHandler.SendCurrencyExchange(_botClient, message, cancellationToken),
-            _ => Usage(_botClient, message, cancellationToken)
-        };
-        Message sentMessage = await action;
+            sentMessage = await Usage(_botClient, message, cancellationToken);
+        }
+        else
+        {
+            var action = command[0] switch
+            {
+                "/start" => SendGreetings(_botClient, message, cancellationToken),
+                "/currency" => _currencyHandler.SendCurrencyExchange(_botClient, message, cancellationToken),
+                "/question" => _questionHandler.AnswerTheQuestion(_botClient, message, cancellationToken),
+                _ => Usage(_botClient, message, cancellationToken)
+            };
+            sentMessage = await action;
+        }
+        
         _logger.LogInformation("The message was sent with id: {SentMessageId}", sentMessage.MessageId);
 
         static async Task<Message> SendGreetings(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
@@ -83,7 +100,8 @@ public class BotBaseHandler : IBotBaseHandler
         {
             const string usage = "Usage:\n" +
                                  "/start - Greeting\n" +
-                                 "/currency - Currency exchange";
+                                 "/currency - Currency exchange\n" +
+                                 "/question - Ask question";
 
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
@@ -139,7 +157,7 @@ public class BotBaseHandler : IBotBaseHandler
             cancellationToken: cancellationToken);
     }
 
-    private Task UnknownUpdateHandlerAsync(Update update, CancellationToken cancellationToken)
+    private Task UnknownUpdateHandlerAsync(Update update)
     {
         _logger.LogInformation("Unknown update type: {UpdateType}", update.Type);
         return Task.CompletedTask;

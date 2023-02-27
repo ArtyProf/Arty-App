@@ -61,6 +61,7 @@ jobs:
         --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --settings BotConfiguration__BotToken=${{ secrets.BOT_TOKEN }}
         BotConfiguration__HostAddress=${{ secrets.AZURE_HOST }}
         CurrencyExchangeConfiguration__CurrencyExchangeKey=${{ secrets.CURRENCY_API_KEY }}
+        OpenAIKey=${{ secrets.OPENAI_KEY }}
     - name: 'Run Azure Functions action'
       uses: Azure/functions-action@v1
       with:

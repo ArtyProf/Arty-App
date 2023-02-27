@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TelegramBot.Controllers;
 
-public class OpenApiFunctions
+public static class OpenApiFunctions
 {
     [SwaggerIgnore]
     [FunctionName("OpenApiJson")]

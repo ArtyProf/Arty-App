@@ -29,7 +29,7 @@ public class CurrencyHandler : ICurrencyHandler
     public async Task<Message> SendCurrencyExchange(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Currency request started.");
-        var messageText = message.Text ?? throw new ArgumentNullException();
+        var messageText = message.Text;
         
         if (messageText.Split(' ').Length < 4)
         {
@@ -55,7 +55,7 @@ public class CurrencyHandler : ICurrencyHandler
         var request = new RestRequest();
         request.AddHeader("apikey", _currencyExchangeConfiguration.CurrencyExchangeKey);
 
-        var response = client.Execute(request);
+        var response = client.Execute(request, cancellationToken);
         float rate;
         float result;
         if (response.StatusCode == HttpStatusCode.OK)
