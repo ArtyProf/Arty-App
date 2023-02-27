@@ -29,7 +29,7 @@ public class CurrencyHandler : ICurrencyHandler
     public async Task<Message> SendCurrencyExchange(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Currency request started.");
-        var messageText = message.Text ?? throw new ArgumentNullException("Test is missing for the currency exchange.");
+        var messageText = message.Text;
         
         if (messageText.Split(' ').Length < 4)
         {

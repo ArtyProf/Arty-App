@@ -67,14 +67,25 @@ public class BotBaseHandler : IBotBaseHandler
             messageText = messageText.Replace("@Arty_ProfBot", "");
         }
 
-        var action = messageText.Split(' ')[0] switch
+        var command = messageText.Split(' ');
+
+        Message sentMessage;
+        if (command.Length < 2)
         {
-            "/start" => SendGreetings(_botClient, message, cancellationToken),
-            "/currency" => _currencyHandler.SendCurrencyExchange(_botClient, message, cancellationToken),
-            "/question" => _questionHandler.AnswerTheQuestion(_botClient, message, cancellationToken),
-            _ => Usage(_botClient, message, cancellationToken)
-        };
-        Message sentMessage = await action;
+            sentMessage = await Usage(_botClient, message, cancellationToken);
+        }
+        else
+        {
+            var action = command[0] switch
+            {
+                "/start" => SendGreetings(_botClient, message, cancellationToken),
+                "/currency" => _currencyHandler.SendCurrencyExchange(_botClient, message, cancellationToken),
+                "/question" => _questionHandler.AnswerTheQuestion(_botClient, message, cancellationToken),
+                _ => Usage(_botClient, message, cancellationToken)
+            };
+            sentMessage = await action;
+        }
+        
         _logger.LogInformation("The message was sent with id: {SentMessageId}", sentMessage.MessageId);
 
         static async Task<Message> SendGreetings(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
