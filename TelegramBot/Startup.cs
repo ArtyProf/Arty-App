@@ -31,17 +31,16 @@ public class Startup : FunctionsStartup
                     return new TelegramBotClient(options, httpClient);
                 });
 
+        builder.Services.AddOpenAIService(settings =>
+        {
+            settings.ApiKey = Environment.GetEnvironmentVariable($"{nameof(OpenAIConfiguration)}__{nameof(OpenAIConfiguration.OpenAIKey)}");
+        });
+
         builder.Services.AddScoped<IBotBaseHandler, BotBaseHandler>();
         builder.Services.AddScoped<ICurrencyHandler, CurrencyHandler>();
         builder.Services.AddScoped<IQuestionHandler, QuestionHandler>();
         builder.Services.AddScoped<IImageHandler, ImageHandler>();
 
         builder.AddSwashBuckle(Assembly.GetExecutingAssembly());
-
-        builder.Services.AddOpenAIService(settings => 
-        { 
-            settings.ApiKey = Environment.GetEnvironmentVariable($"{nameof(OpenAIConfiguration)}__{nameof(OpenAIConfiguration.OpenAIKey)}"); 
-        });
-
     }
 }
