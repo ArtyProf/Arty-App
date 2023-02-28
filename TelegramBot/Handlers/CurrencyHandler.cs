@@ -12,7 +12,7 @@ using System.Threading;
 using System;
 using RestSharp;
 
-namespace TelegramBot.Services;
+namespace TelegramBot.Handlers;
 
 public class CurrencyHandler : ICurrencyHandler
 {
