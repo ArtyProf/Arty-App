@@ -36,11 +36,11 @@ public class QuestionHandler : IQuestionHandler
         var result = await _openAIService.Completions.CreateCompletion(new CompletionCreateRequest
             {
                 Prompt = message.Text,
+                Model = !string.IsNullOrWhiteSpace(_openAIConfiguration.CompletionModel) ? _openAIConfiguration.CompletionModel : TextDavinciV3,
                 MaxTokens = int.TryParse(_openAIConfiguration.CompletionTokens, out var maxTokens) ? maxTokens : 2048,
                 Temperature = float.TryParse(_openAIConfiguration.CompletionTemperature, out var temperature) ? temperature : 0.8f,
                 N = 1
-            }, 
-            string.IsNullOrWhiteSpace(_openAIConfiguration.CompletionModel) ? _openAIConfiguration.CompletionModel : TextDavinciV3,
+            },
             cancellationToken: cancellationToken);
 
         if (result.Successful && result.Choices.Any())
