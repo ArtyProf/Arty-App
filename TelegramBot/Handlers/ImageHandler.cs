@@ -8,6 +8,8 @@ using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels;
 using System.Linq;
 using OpenAI.GPT3.Interfaces;
+using System.IO;
+using System;
 
 namespace TelegramBot.Handlers;
 
@@ -38,9 +40,10 @@ public class ImageHandler : IImageHandler
 
 		if (result.Successful)
 		{
+            var imageStream = new MemoryStream(Convert.FromBase64String(result.Results.First().B64));
             return await botClient.SendPhotoAsync(
                 chatId: message.Chat.Id,
-                photo: result.Results.First().B64,
+                photo: new InputMedia(imageStream, "image.jpg"),
                 cancellationToken: cancellationToken);
         }
 
