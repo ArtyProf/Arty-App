@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using static OpenAI.GPT3.ObjectModels.Models;
 using OpenAI.GPT3.Interfaces;
+using System.Linq;
 
 namespace TelegramBot.Handlers;
 
@@ -37,13 +38,14 @@ public class QuestionHandler : IQuestionHandler
                 MaxTokens = int.TryParse(_openAIConfiguration.CompletionTokens, out var maxTokens) ? maxTokens : 2048,
                 Temperature = float.TryParse(_openAIConfiguration.CompletionTemperature, out var temperature) ? temperature : 0.8f,
                 Model = string.IsNullOrWhiteSpace(_openAIConfiguration.CompletionModel) ? _openAIConfiguration.CompletionModel : TextDavinciV3,
+                N = 1
             }, cancellationToken: cancellationToken);
 
         if (result.Successful)
         {
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
-                text: result.ToString(),
+                text: result.Choices.First().Text,
                 cancellationToken: cancellationToken);
         }
 
