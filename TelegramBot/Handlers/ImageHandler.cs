@@ -34,7 +34,7 @@ public class ImageHandler : IImageHandler
 				N = 1,
 				Size = StaticValues.ImageStatics.Size.Size1024,
 				ResponseFormat = StaticValues.ImageStatics.ResponseFormat.Base64
-            });
+            }, cancellationToken);
 
 		if (result.Successful)
 		{
