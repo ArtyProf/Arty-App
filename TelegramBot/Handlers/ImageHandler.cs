@@ -34,7 +34,7 @@ public class ImageHandler : IImageHandler
 			{
                 Prompt = message.Text,
 				N = 1,
-				Size = StaticValues.ImageStatics.Size.Size1024,
+				Size = StaticValues.ImageStatics.Size.Size512,
 				ResponseFormat = StaticValues.ImageStatics.ResponseFormat.Base64
             }, cancellationToken);
 
