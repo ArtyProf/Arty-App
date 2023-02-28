@@ -35,6 +35,7 @@ public class QuestionHandler : IQuestionHandler
         
         var result = await _openAIService.Completions.CreateCompletion(new CompletionCreateRequest
             {
+                Prompt = message.Text,
                 MaxTokens = int.TryParse(_openAIConfiguration.CompletionTokens, out var maxTokens) ? maxTokens : 2048,
                 Temperature = float.TryParse(_openAIConfiguration.CompletionTemperature, out var temperature) ? temperature : 0.8f,
                 Model = string.IsNullOrWhiteSpace(_openAIConfiguration.CompletionModel) ? _openAIConfiguration.CompletionModel : TextDavinciV3,
