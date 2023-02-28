@@ -8,22 +8,22 @@ using TelegramBot.Configuration;
 using Microsoft.Extensions.Options;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using static OpenAI.GPT3.ObjectModels.Models;
-using OpenAI.GPT3.Managers;
+using OpenAI.GPT3.Interfaces;
 
 namespace TelegramBot.Handlers;
 
 public class QuestionHandler : IQuestionHandler
 {
-    private readonly OpenAIService _openAIClient;
+    private readonly IOpenAIService _openAIService;
     private readonly OpenAIConfiguration _openAIConfiguration;
     private readonly ILogger<QuestionHandler> _logger;
 
     public QuestionHandler(
-        OpenAIService openAIClient,
+        IOpenAIService openAIService,
         IOptions<OpenAIConfiguration> openAIConfiguration,
         ILogger<QuestionHandler> logger)
     {
-        _openAIClient = openAIClient;
+        _openAIService = openAIService;
         _openAIConfiguration = openAIConfiguration.Value;
         _logger = logger;
     }
@@ -32,7 +32,7 @@ public class QuestionHandler : IQuestionHandler
     {
         _logger.LogInformation("Answer the question started.");
         
-        var result = await _openAIClient.Completions.CreateCompletion(new CompletionCreateRequest
+        var result = await _openAIService.Completions.CreateCompletion(new CompletionCreateRequest
             {
                 MaxTokens = int.TryParse(_openAIConfiguration.CompletionTokens, out var maxTokens) ? maxTokens : 2048,
                 Temperature = float.TryParse(_openAIConfiguration.CompletionTemperature, out var temperature) ? temperature : 0.8f,

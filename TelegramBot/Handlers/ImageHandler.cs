@@ -7,19 +7,19 @@ using TelegramBot.Interfaces;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels;
 using System.Linq;
-using OpenAI.GPT3.Managers;
+using OpenAI.GPT3.Interfaces;
 
 namespace TelegramBot.Handlers;
 
 public class ImageHandler : IImageHandler
 {
-    private readonly OpenAIService _openAIClient;
+    private readonly IOpenAIService _openAIService;
     private readonly ILogger<ImageHandler> _logger;
 
-	public ImageHandler(OpenAIService openAIClient,
+	public ImageHandler(IOpenAIService openAIService,
 		ILogger<ImageHandler> logger)
 	{
-		_openAIClient = openAIClient;
+        _openAIService = openAIService;
 		_logger = logger;
 	}
 
@@ -27,7 +27,7 @@ public class ImageHandler : IImageHandler
 	{
 		_logger.LogInformation("Image generation started.");
 
-		var result = await _openAIClient.Image.CreateImage(
+		var result = await _openAIService.Image.CreateImage(
 			new ImageCreateRequest
 			{
                 Prompt = message.Text,
