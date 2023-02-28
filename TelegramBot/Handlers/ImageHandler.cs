@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging;
-using OpenAI_API;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
