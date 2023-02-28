@@ -41,7 +41,7 @@ public class QuestionHandler : IQuestionHandler
                 N = 1
             }, cancellationToken: cancellationToken);
 
-        if (result.Successful)
+        if (result.Successful && result.Choices.Any())
         {
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
