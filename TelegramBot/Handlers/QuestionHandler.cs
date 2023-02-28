@@ -6,20 +6,20 @@ using Telegram.Bot;
 using TelegramBot.Interfaces;
 using TelegramBot.Configuration;
 using Microsoft.Extensions.Options;
-using OpenAI.GPT3.Interfaces;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using static OpenAI.GPT3.ObjectModels.Models;
+using OpenAI.GPT3.Managers;
 
 namespace TelegramBot.Handlers;
 
 public class QuestionHandler : IQuestionHandler
 {
-    private readonly IOpenAIService _openAIClient;
+    private readonly OpenAIService _openAIClient;
     private readonly OpenAIConfiguration _openAIConfiguration;
     private readonly ILogger<QuestionHandler> _logger;
 
     public QuestionHandler(
-        IOpenAIService openAIClient,
+        OpenAIService openAIClient,
         IOptions<OpenAIConfiguration> openAIConfiguration,
         ILogger<QuestionHandler> logger)
     {

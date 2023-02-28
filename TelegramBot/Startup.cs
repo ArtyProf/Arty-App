@@ -31,15 +31,14 @@ public class Startup : FunctionsStartup
                     return new TelegramBotClient(options, httpClient);
                 });
 
-        builder.Services.AddHttpClient("open_api_client")
-                .AddTypedClient<IOpenAIService>((httpClient, sp) =>
+        builder.Services.AddSingleton(s =>
+        {
+            return new OpenAIService(
+                new OpenAiOptions
                 {
-                    return new OpenAIService(
-                        new OpenAiOptions
-                        {
-                            ApiKey = Environment.GetEnvironmentVariable($"{nameof(OpenAIConfiguration)}__{nameof(OpenAIConfiguration.OpenAIKey)}")
-                        }, httpClient);
+                    ApiKey = Environment.GetEnvironmentVariable($"{nameof(OpenAIConfiguration)}__{nameof(OpenAIConfiguration.OpenAIKey)}")
                 });
+        });
 
         builder.Services.AddScoped<IBotBaseHandler, BotBaseHandler>();
         builder.Services.AddScoped<ICurrencyHandler, CurrencyHandler>();

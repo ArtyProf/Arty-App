@@ -4,19 +4,19 @@ using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using TelegramBot.Interfaces;
-using OpenAI.GPT3.Interfaces;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels;
 using System.Linq;
+using OpenAI.GPT3.Managers;
 
 namespace TelegramBot.Handlers;
 
 public class ImageHandler : IImageHandler
 {
-    private readonly IOpenAIService _openAIClient;
+    private readonly OpenAIService _openAIClient;
     private readonly ILogger<ImageHandler> _logger;
 
-	public ImageHandler(IOpenAIService openAIClient,
+	public ImageHandler(OpenAIService openAIClient,
 		ILogger<ImageHandler> logger)
 	{
 		_openAIClient = openAIClient;
