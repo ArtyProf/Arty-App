@@ -30,11 +30,11 @@ public class QuestionHandler : IQuestionHandler
     public async Task<Message> AnswerTheQuestion(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Answer the question started.");
-
+        
         var result = await _openAIClient.Completions.CreateCompletion(new CompletionCreateRequest
             {
-                MaxTokens = _openAIConfiguration.CompletionTokens,
-                Temperature = _openAIConfiguration.CompletionTemperature,
+                MaxTokens = int.TryParse(_openAIConfiguration.CompletionTokens, out var maxTokens) ? maxTokens : 2048,
+                Temperature = float.TryParse(_openAIConfiguration.CompletionTemperature, out var temperature) ? temperature : 0.8f,
                 Model = _openAIConfiguration.CompletionModel
             }, cancellationToken: cancellationToken);
 

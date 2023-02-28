@@ -6,7 +6,7 @@ public class OpenAIConfiguration
 
     public string CompletionModel { get; set; }
 
-    public float CompletionTemperature { get; set; }
+    public string CompletionTemperature { get; set; }
 
-    public int CompletionTokens { get; set; }
+    public string CompletionTokens { get; set; }
 }
