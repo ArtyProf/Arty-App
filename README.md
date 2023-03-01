@@ -16,8 +16,11 @@ Integrated with Open AI.
 
 /start - Greeting
 
-/currency - Currency Exchange rate. Example: /currency UAH USD 10
+/currency - Currency Exchange rate. Example: 
+> /currency UAH USD 10
 
-/question - Ask any question. Based on Open AI (ChatGPT). Example: /question Top movie titles 2023
+/question - Ask any question. Based on Open AI (ChatGPT). Example: 
+> /question Top movie titles 2023
 
-/image - Image description. Based on Open AI (ChatGPT). Example: /image orange sky
+/image - Image description. Based on Open AI (ChatGPT). Example: 
+> /image orange sky
