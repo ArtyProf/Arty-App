@@ -102,11 +102,11 @@ public class BotBaseHandler : IBotBaseHandler
 
         static async Task<Message> Usage(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
         {
-            const string usage = "Usage:\n" +
-                                 "/start - Greeting\n" +
-                                 "/currency - Currency Exchange rate. Example: /currency UAH USD 10\n" +
-                                 "/question - Ask any question. Based on Open AI (ChatGPT). Example: /question Top movie titles 2023\n" +
-                                 "/image - Image description. Based on Open AI (ChatGPT). Example: /image orange sky";
+            const string usage = "Usage:\r\n" +
+                                 "/start - Greeting\r\n" +
+                                 "/currency - Currency Exchange rate.\nExample: /currency UAH USD 10\r\n" +
+                                 "/question - Ask any question. Based on Open AI (ChatGPT).\nExample: /question Top movie titles 2023\r\n" +
+                                 "/image - Image description. Based on Open AI (ChatGPT).\nExample: /image orange sky";
 
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
