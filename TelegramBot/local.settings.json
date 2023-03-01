@@ -6,6 +6,9 @@
     "CurrencyExchangeConfiguration__CurrencyExchangeKey": "{API_KEY}",
     "BotConfiguration__BotToken": "{BOT_TOKEN}",
     "BotConfiguration__HostAddress": "{HOST_URL}",
-    "OpenAIKey":  "{API_KEY}"
+    "OpenAIConfiguration__OpenAIKey": "{API_KEY}",
+    "OpenAIConfiguration__CompletionModel": "text-davinci-003",
+    "OpenAIConfiguration__CompletionTemperature": "0.2",
+    "OpenAIConfiguration__CompletionTokens": "2048"
   }
 }

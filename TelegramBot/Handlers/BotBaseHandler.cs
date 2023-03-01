@@ -9,7 +9,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TelegramBot.Services;
+namespace TelegramBot.Handlers;
 
 public class BotBaseHandler : IBotBaseHandler
 {
@@ -17,16 +17,19 @@ public class BotBaseHandler : IBotBaseHandler
     private readonly ILogger<BotBaseHandler> _logger;
     private readonly ICurrencyHandler _currencyHandler;
     private readonly IQuestionHandler _questionHandler;
+    private readonly IImageHandler _imageHandler;
 
     public BotBaseHandler(ITelegramBotClient botClient,
         ILogger<BotBaseHandler> logger,
         ICurrencyHandler currencyHandler,
-        IQuestionHandler questionHandler)
+        IQuestionHandler questionHandler,
+        IImageHandler imageHandler)
     {
         _botClient = botClient;
         _logger = logger;
         _currencyHandler = currencyHandler;
         _questionHandler = questionHandler;
+        _imageHandler = imageHandler;
     }
 
     public Task HandleErrorAsync(Exception exception, CancellationToken cancellationToken)
@@ -81,6 +84,7 @@ public class BotBaseHandler : IBotBaseHandler
                 "/start" => SendGreetings(_botClient, message, cancellationToken),
                 "/currency" => _currencyHandler.SendCurrencyExchange(_botClient, message, cancellationToken),
                 "/question" => _questionHandler.AnswerTheQuestion(_botClient, message, cancellationToken),
+                "/image" => _imageHandler.GetImage(_botClient, message, cancellationToken),
                 _ => Usage(_botClient, message, cancellationToken)
             };
             sentMessage = await action;
@@ -98,10 +102,11 @@ public class BotBaseHandler : IBotBaseHandler
 
         static async Task<Message> Usage(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
         {
-            const string usage = "Usage:\n" +
-                                 "/start - Greeting\n" +
-                                 "/currency - Currency exchange\n" +
-                                 "/question - Ask question";
+            const string usage = "Usage:\r\n" +
+                                 "/start - Greeting\r\n" +
+                                 "/currency - Currency Exchange rate.\nExample: /currency UAH USD 10\r\n" +
+                                 "/question - Ask any question. Based on Open AI (ChatGPT).\nExample: /question Top movie titles 2023\r\n" +
+                                 "/image - Image description. Based on Open AI (ChatGPT).\nExample: /image orange sky";
 
             return await botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,

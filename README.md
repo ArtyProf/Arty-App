@@ -2,11 +2,11 @@
 
 Simple telegram bot: https://t.me/Arty_ProfBot
 
-Hosted on Azure Functions.
-
-CI/CD is set up for Azure.
+Hosted on Azure Functions. CI/CD is set up for Azure.
 
 Functionality is in development.
+
+Integrated with Open AI.
 
 ## Status checks
 [![Build and Deploy on Azure](https://github.com/ArtyProf/Telegram-bot-from-Arty_Prof/actions/workflows/deployment.yml/badge.svg?branch=master)](https://github.com/ArtyProf/Telegram-bot-from-Arty_Prof/actions/workflows/deployment.yml)
@@ -16,6 +16,11 @@ Functionality is in development.
 
 /start - Greeting
 
-/currency - Currency Exchange rate. Example: /currency UAH USD 10
+/currency - Currency Exchange rate. Example: 
+> /currency UAH USD 10
 
-/question - Ask any question. Based on Open AI (ChatGPT). Example: /question Top movie titles 2023
+/question - Ask any question. Based on Open AI (ChatGPT). Example: 
+> /question Top movie titles 2023
+
+/image - Image description. Based on Open AI (ChatGPT). Example: 
+> /image orange sky
