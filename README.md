@@ -1,6 +1,4 @@
-# Telegram bot from Arty_Prof
-
-Simple telegram bot: https://t.me/Arty_ProfBot
+# Telegram bot with Open AI integration
 
 Hosted on Azure Functions. CI/CD is set up for Azure.
 
