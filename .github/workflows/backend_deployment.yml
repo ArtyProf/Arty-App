@@ -1,4 +1,4 @@
-name: Build and Deploy on Azure
+name: Build and Deploy .NET API
 
 on:
   workflow_dispatch:
