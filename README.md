@@ -11,4 +11,4 @@ Integrated with Open AI.
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ArtyProf_Telegram-bot-from-Arty_Prof&metric=alert_status)](https://sonarcloud.io/summary/overall?id=ArtyProf_Telegram-bot-from-Arty_Prof)
 
 ## Usage:
-[![Back-end readme.md](https://github.com/ArtyProf/Arty-App/blob/feature/Change_file_structure/api/README.md)
+[Back-end readme.md](https://github.com/ArtyProf/Arty-App/blob/feature/Change_file_structure/api/README.md)
