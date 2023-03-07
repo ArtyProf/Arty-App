@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    paths:
+      - api
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
@@ -43,5 +45,5 @@ jobs:
         run: |
           dotnet tool install --global dotnet-sonarscanner
           dotnet sonarscanner begin /k:"${{ secrets.SONAR_PROJECT_NAME }}" /o:"${{ secrets.SONAR_ORGANIZATION }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build TelegramBotFromArty_Prof.sln
+          dotnet build api/ArtyApp.sln
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
