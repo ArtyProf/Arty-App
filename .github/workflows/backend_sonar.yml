@@ -1,4 +1,4 @@
-name: SonarCloud Check
+name: SonarCloud Check .NET API 
 
 on:
   push:
