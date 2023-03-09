@@ -6,9 +6,11 @@
     "All the command line options for the Lambda command can be specified in this file."
   ],
   "profile": "default",
-  "region": "us-east-1",
+  "region": "eu-west-3",
   "configuration": "Release",
-  "s3-prefix": "AWSServerless1/",
+  "s3-prefix": "ArtyApp/",
   "template": "serverless.template",
-  "template-parameters": ""
+  "template-parameters": "",
+  "function-runtime": "dotnet6",
+  "function-handler": "ArtyApp.Api::ArtyApp.LambdaEntryPoint::FunctionHandlerAsync"
 }

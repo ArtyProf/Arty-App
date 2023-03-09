@@ -36,10 +36,9 @@ namespace ArtyApp.Controllers
         /// <summary>
         /// Set up telegram bot
         /// </summary>
-        /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost(nameof(Setup))]
-        public async Task Setup(HttpRequest req)
+        public async Task Setup()
         {
             await _botClient.SetWebhookAsync($"{_botConfiguration.HostAddress}/api/{nameof(HandleUpdate)}");
         }
@@ -47,15 +46,12 @@ namespace ArtyApp.Controllers
         /// <summary>
         /// Handle telegram commands
         /// </summary>
-        /// <param name="req"></param>
+        /// <param name="update"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost(nameof(HandleUpdate))]
-        public async Task HandleUpdate(HttpRequest req, CancellationToken cancellationToken)
+        public async Task HandleUpdate(Update update, CancellationToken cancellationToken)
         {
-            var request = await new StreamReader(req.Body).ReadToEndAsync();
-            var update = JsonConvert.DeserializeObject<Update>(request);
-
             await _botBaseHandler.HandleUpdateAsync(update, cancellationToken);
         }
     }

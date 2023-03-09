@@ -4,7 +4,7 @@ namespace ArtyApp;
 /// This class extends from APIGatewayProxyFunction which contains the method FunctionHandlerAsync which is the 
 /// actual Lambda function entry point. The Lambda handler field should be set to
 /// 
-/// AWSServerless1::AWSServerless1.LambdaEntryPoint::FunctionHandlerAsync
+/// ArtyApp.Api::ArtyApp.LambdaEntryPoint::FunctionHandlerAsync
 /// </summary>
 public class LambdaEntryPoint :
 
