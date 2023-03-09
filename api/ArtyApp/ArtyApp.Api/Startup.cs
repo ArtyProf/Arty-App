@@ -1,46 +1,106 @@
-﻿using AzureFunctions.Extensions.Swashbuckle;
-using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+using ArtyApp.Configuration;
+using ArtyApp.Handlers;
+using ArtyApp.Interfaces;
+using Microsoft.OpenApi.Models;
+using OpenAI.GPT3.Extensions;
 using System.Reflection;
 using Telegram.Bot;
-using TelegramBot.Configuration;
-using TelegramBot.Interfaces;
-using TelegramBot.Handlers;
-using OpenAI.GPT3.Extensions;
-using OpenAI.GPT3.Interfaces;
-using OpenAI.GPT3.Managers;
-using OpenAI.GPT3;
 
-[assembly: FunctionsStartup(typeof(TelegramBot.Startup))]
-namespace TelegramBot;
+namespace ArtyApp;
 
-public class Startup : FunctionsStartup
+/// <summary>
+/// Start up for the application middleware
+/// </summary>
+public class Startup
 {
-    public override void Configure(IFunctionsHostBuilder builder)
+    /// <summary>
+    /// Constructor for the application middleware
+    /// </summary>
+    /// <param name="configuration"></param>
+    public Startup(IConfiguration configuration)
     {
-        var configuration = builder.GetContext().Configuration;
-        builder.Services.Configure<CurrencyExchangeConfiguration>(configuration.GetSection(nameof(CurrencyExchangeConfiguration)));
-        builder.Services.Configure<BotConfiguration>(configuration.GetSection(nameof(BotConfiguration)));
-        builder.Services.Configure<OpenAIConfiguration>(configuration.GetSection(nameof(OpenAIConfiguration)));
+        Configuration = configuration;
+    }
 
-        builder.Services.AddHttpClient("telegram_bot_client")
+    /// <summary>
+    /// Application Configuration
+    /// </summary>
+    public IConfiguration Configuration { get; }
+
+    /// <summary>
+    /// This method gets called by the runtime. Use this method to add services to the container
+    /// </summary>
+    /// <param name="services"></param>
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.Configure<CurrencyExchangeConfiguration>(Configuration.GetSection(nameof(CurrencyExchangeConfiguration)));
+        services.Configure<BotConfiguration>(Configuration.GetSection(nameof(BotConfiguration)));
+        services.Configure<OpenAIConfiguration>(Configuration.GetSection(nameof(OpenAIConfiguration)));
+
+        services.AddHttpClient("telegram_bot_client")
                 .AddTypedClient<ITelegramBotClient>((httpClient, sp) =>
                 {
                     TelegramBotClientOptions options = new(Environment.GetEnvironmentVariable($"{nameof(BotConfiguration)}__{nameof(BotConfiguration.BotToken)}"));
                     return new TelegramBotClient(options, httpClient);
                 });
 
-        builder.Services.AddOpenAIService(settings =>
+        services.AddOpenAIService(settings =>
         {
             settings.ApiKey = Environment.GetEnvironmentVariable($"{nameof(OpenAIConfiguration)}__{nameof(OpenAIConfiguration.OpenAIKey)}");
         });
 
-        builder.Services.AddScoped<IBotBaseHandler, BotBaseHandler>();
-        builder.Services.AddScoped<ICurrencyHandler, CurrencyHandler>();
-        builder.Services.AddScoped<IQuestionHandler, QuestionHandler>();
-        builder.Services.AddScoped<IImageHandler, ImageHandler>();
+        services.AddScoped<IBotBaseHandler, BotBaseHandler>();
+        services.AddScoped<ICurrencyHandler, CurrencyHandler>();
+        services.AddScoped<IQuestionHandler, QuestionHandler>();
+        services.AddScoped<IImageHandler, ImageHandler>();
 
-        builder.AddSwashBuckle(Assembly.GetExecutingAssembly());
+        services.AddControllers();
+        services.AddSwaggerGen(swagger =>
+        {
+            swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "ArtyApp API" });
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            swagger.IncludeXmlComments(xmlPath);
+        });
+    }
+
+    /// <summary>
+    /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline
+    /// </summary>
+    /// <param name="app"></param>
+    /// <param name="env"></param>
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+
+        app.UseHttpsRedirection();
+
+        app.UseRouting();
+
+        app.UseSwagger(c =>
+        {
+            c.RouteTemplate = "swagger/{documentName}/swagger.json";
+        });
+
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("v1/swagger.json", "ArtyApp API V1");
+            c.RoutePrefix = "swagger";
+        });
+
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapGet("/", context =>
+            {
+                context.Response.Redirect("./swagger/index.html");
+                return Task.FromResult(0);
+            });
+        });
     }
 }

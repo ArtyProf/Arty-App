@@ -1,9 +1,12 @@
 {
   "profiles": {
-    "TelegramBot": {
+    "ArtyApp": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7164",
-      "launchBrowser": false
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:63998;http://localhost:63999"
     }
   }
 }

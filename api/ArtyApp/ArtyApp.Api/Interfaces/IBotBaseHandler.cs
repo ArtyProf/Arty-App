@@ -3,7 +3,7 @@ using System.Threading;
 using System;
 using Telegram.Bot.Types;
 
-namespace TelegramBot.Interfaces;
+namespace ArtyApp.Interfaces;
 
 public interface IBotBaseHandler
 {

@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot;
-using TelegramBot.Interfaces;
+using ArtyApp.Interfaces;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using OpenAI.GPT3.ObjectModels;
 using System.Linq;
@@ -11,7 +11,7 @@ using OpenAI.GPT3.Interfaces;
 using System.IO;
 using System;
 
-namespace TelegramBot.Handlers;
+namespace ArtyApp.Handlers;
 
 public class ImageHandler : IImageHandler
 {
