@@ -40,7 +40,7 @@ namespace ArtyApp.Controllers
         [HttpPost(nameof(Setup))]
         public async Task Setup()
         {
-            await _botClient.SetWebhookAsync($"{_botConfiguration.HostAddress}/api/Bot/{nameof(HandleUpdate)}");
+            await _botClient.SetWebhookAsync($"{_botConfiguration.HostAddress}/api/Bot/HandleUpdate");
         }
 
         /// <summary>
