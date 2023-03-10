@@ -40,7 +40,7 @@ public class Startup
         services.AddHttpClient("telegram_bot_client")
                 .AddTypedClient<ITelegramBotClient>((httpClient, sp) =>
                 {
-                    TelegramBotClientOptions options = new("6087036538:AAHS5hFWpR9aIc1JZ52tmYwYcRq-3Z09nhw");
+                    TelegramBotClientOptions options = new(Environment.GetEnvironmentVariable($"{nameof(BotConfiguration)}__{nameof(BotConfiguration.BotToken)}"));
                     return new TelegramBotClient(options, httpClient);
                 });
 
@@ -54,7 +54,7 @@ public class Startup
         services.AddScoped<IQuestionHandler, QuestionHandler>();
         services.AddScoped<IImageHandler, ImageHandler>();
 
-        services.AddControllers();
+        services.AddControllers().AddNewtonsoftJson();
         services.AddSwaggerGen(swagger =>
         {
             swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "ArtyApp API" });

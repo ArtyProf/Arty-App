@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Telegram.Bot.Types;
 using ArtyApp.Interfaces;
 using Telegram.Bot;
@@ -40,7 +39,7 @@ namespace ArtyApp.Controllers
         [HttpPost]
         public async Task<OkResult> Setup()
         {
-            await _botClient.SetWebhookAsync($"https://bt87xypm1i.execute-api.eu-west-3.amazonaws.com/dev/api/Bot/HandleUpdate");
+            await _botClient.SetWebhookAsync($"{_botConfiguration.HostAddress}/api/Bot/{nameof(HandleUpdate)}");
             return Ok();
         }
 
