@@ -11,7 +11,7 @@ namespace ArtyApp.Controllers
     /// <summary>
     /// API for managing Telegram bot
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class BotController : ControllerBase
     {
         private readonly IBotBaseHandler _botBaseHandler;
@@ -38,9 +38,10 @@ namespace ArtyApp.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost(nameof(Setup))]
-        public async Task Setup()
+        public async Task<OkResult> Setup()
         {
             await _botClient.SetWebhookAsync($"{_botConfiguration.HostAddress}/api/Bot/HandleUpdate");
+            return Ok();
         }
 
         /// <summary>
@@ -50,9 +51,10 @@ namespace ArtyApp.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost(nameof(HandleUpdate))]
-        public async Task HandleUpdate([FromBody] Update update, CancellationToken cancellationToken)
+        public async Task<OkResult> HandleUpdate([FromBody] Update update, CancellationToken cancellationToken)
         {
             await _botBaseHandler.HandleUpdateAsync(update, cancellationToken);
+            return Ok();
         }
     }
 }
