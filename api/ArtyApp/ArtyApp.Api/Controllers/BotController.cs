@@ -37,7 +37,7 @@ namespace ArtyApp.Controllers
         /// Set up telegram bot
         /// </summary>
         /// <returns></returns>
-        [HttpPost(nameof(Setup))]
+        [HttpPost]
         public async Task<OkResult> Setup()
         {
             await _botClient.SetWebhookAsync($"{_botConfiguration.HostAddress}/api/Bot/HandleUpdate");
@@ -50,7 +50,7 @@ namespace ArtyApp.Controllers
         /// <param name="update"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpPost(nameof(HandleUpdate))]
+        [HttpPost]
         public async Task<OkResult> HandleUpdate([FromBody] Update update, CancellationToken cancellationToken)
         {
             await _botBaseHandler.HandleUpdateAsync(update, cancellationToken);
