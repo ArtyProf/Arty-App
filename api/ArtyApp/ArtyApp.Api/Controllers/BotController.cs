@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Telegram.Bot.Types;
 using ArtyApp.Interfaces;
 using Telegram.Bot;
@@ -11,7 +10,7 @@ namespace ArtyApp.Controllers
     /// <summary>
     /// API for managing Telegram bot
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class BotController : ControllerBase
     {
         private readonly IBotBaseHandler _botBaseHandler;
@@ -37,10 +36,11 @@ namespace ArtyApp.Controllers
         /// Set up telegram bot
         /// </summary>
         /// <returns></returns>
-        [HttpPost(nameof(Setup))]
-        public async Task Setup()
+        [HttpPost]
+        public async Task<OkResult> Setup()
         {
             await _botClient.SetWebhookAsync($"{_botConfiguration.HostAddress}/api/Bot/{nameof(HandleUpdate)}");
+            return Ok();
         }
 
         /// <summary>
@@ -49,10 +49,11 @@ namespace ArtyApp.Controllers
         /// <param name="update"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpPost(nameof(HandleUpdate))]
-        public async Task HandleUpdate([FromBody] Update update, CancellationToken cancellationToken)
+        [HttpPost]
+        public async Task<OkResult> HandleUpdate([FromBody] Update update, CancellationToken cancellationToken)
         {
             await _botBaseHandler.HandleUpdateAsync(update, cancellationToken);
+            return Ok();
         }
     }
 }

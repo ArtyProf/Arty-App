@@ -54,7 +54,7 @@ public class Startup
         services.AddScoped<IQuestionHandler, QuestionHandler>();
         services.AddScoped<IImageHandler, ImageHandler>();
 
-        services.AddControllers();
+        services.AddControllers().AddNewtonsoftJson();
         services.AddSwaggerGen(swagger =>
         {
             swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "ArtyApp API" });
