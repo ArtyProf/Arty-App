@@ -15,5 +15,6 @@ Integrated with Open AI.
 
 ## Usage:
 
-[Back-end readme.md](https://github.com/ArtyProf/Arty-App/blob/master/api/README.md)
-[Front-end readme.md](https://github.com/ArtyProf/Arty-App/blob/master/webapp/README.md)
+[Back-end README.md](https://github.com/ArtyProf/Arty-App/blob/master/api/README.md)
+
+[Front-end README.md](https://github.com/ArtyProf/Arty-App/blob/master/webapp/README.md)
