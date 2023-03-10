@@ -40,7 +40,7 @@ public class Startup
         services.AddHttpClient("telegram_bot_client")
                 .AddTypedClient<ITelegramBotClient>((httpClient, sp) =>
                 {
-                    TelegramBotClientOptions options = new(Environment.GetEnvironmentVariable($"{nameof(BotConfiguration)}__{nameof(BotConfiguration.BotToken)}"));
+                    TelegramBotClientOptions options = new("6087036538:AAHS5hFWpR9aIc1JZ52tmYwYcRq-3Z09nhw");
                     return new TelegramBotClient(options, httpClient);
                 });
 
