@@ -50,7 +50,7 @@ namespace ArtyApp.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost(nameof(HandleUpdate))]
-        public async Task HandleUpdate(Update update, CancellationToken cancellationToken)
+        public async Task HandleUpdate([FromBody] Update update, CancellationToken cancellationToken)
         {
             await _botBaseHandler.HandleUpdateAsync(update, cancellationToken);
         }

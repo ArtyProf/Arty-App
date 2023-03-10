@@ -5,7 +5,7 @@
   "Parameters": {},
   "Conditions": {},
   "Resources": {
-    "AspNetCoreFunction": {
+    "ArtyApp": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
         "Handler": "ArtyApp.Api::ArtyApp.LambdaEntryPoint::FunctionHandlerAsync",
@@ -38,9 +38,9 @@
   },
   "Outputs": {
     "ApiURL": {
-      "Description": "API endpoint URL for Prod environment",
+      "Description": "API endpoint URL for dev environment",
       "Value": {
-        "Fn::Sub": "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+        "Fn::Sub": "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/dev/"
       }
     }
   }
