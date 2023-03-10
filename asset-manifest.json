@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/arty-app/static/css/main.073c9b0a.css",
-    "main.js": "/arty-app/static/js/main.cd73cdf1.js",
-    "static/js/787.514d48c1.chunk.js": "/arty-app/static/js/787.514d48c1.chunk.js",
-    "static/media/logo.svg": "/arty-app/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
-    "index.html": "/arty-app/index.html",
-    "main.073c9b0a.css.map": "/arty-app/static/css/main.073c9b0a.css.map",
-    "main.cd73cdf1.js.map": "/arty-app/static/js/main.cd73cdf1.js.map",
-    "787.514d48c1.chunk.js.map": "/arty-app/static/js/787.514d48c1.chunk.js.map"
+    "main.css": "/Arty-App/static/css/main.073c9b0a.css",
+    "main.js": "/Arty-App/static/js/main.2fd3b437.js",
+    "static/js/787.514d48c1.chunk.js": "/Arty-App/static/js/787.514d48c1.chunk.js",
+    "static/media/logo.svg": "/Arty-App/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/Arty-App/index.html",
+    "main.073c9b0a.css.map": "/Arty-App/static/css/main.073c9b0a.css.map",
+    "main.2fd3b437.js.map": "/Arty-App/static/js/main.2fd3b437.js.map",
+    "787.514d48c1.chunk.js.map": "/Arty-App/static/js/787.514d48c1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.cd73cdf1.js"
+    "static/js/main.2fd3b437.js"
   ]
 }
