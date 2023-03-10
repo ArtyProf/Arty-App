@@ -3,7 +3,7 @@ using Telegram.Bot;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace TelegramBot.Interfaces;
+namespace ArtyApp.Interfaces;
 
 public interface ICurrencyHandler
 {

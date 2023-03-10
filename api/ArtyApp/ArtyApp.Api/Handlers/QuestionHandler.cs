@@ -3,15 +3,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot;
-using TelegramBot.Interfaces;
-using TelegramBot.Configuration;
+using ArtyApp.Interfaces;
+using ArtyApp.Configuration;
 using Microsoft.Extensions.Options;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 using static OpenAI.GPT3.ObjectModels.Models;
 using OpenAI.GPT3.Interfaces;
 using System.Linq;
 
-namespace TelegramBot.Handlers;
+namespace ArtyApp.Handlers;
 
 public class QuestionHandler : IQuestionHandler
 {

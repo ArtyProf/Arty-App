@@ -1,18 +1,18 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot;
-using TelegramBot.Configuration;
-using TelegramBot.Interfaces;
+using ArtyApp.Configuration;
+using ArtyApp.Interfaces;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Net;
-using TelegramBot.Helpers;
+using ArtyApp.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
 using RestSharp;
 
-namespace TelegramBot.Handlers;
+namespace ArtyApp.Handlers;
 
 public class CurrencyHandler : ICurrencyHandler
 {

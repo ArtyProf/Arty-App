@@ -1,4 +1,4 @@
-﻿namespace TelegramBot.Configuration;
+﻿namespace ArtyApp.Configuration;
 
 public class BotConfiguration
 {

@@ -1,4 +1,4 @@
-name: Build and Deploy .NET API
+name: Build and Deploy .NET API to AWS Lambda
 
 on:
   workflow_dispatch:
@@ -13,13 +13,14 @@ on:
         - warning
         - debug
 
-env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: ${{ secrets.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+defaults:
+  run:
+    working-directory: ./api/ArtyApp/ArtyApp.Api
 
 jobs:
   build-and-test:
-    runs-on: windows-latest
-
+    runs-on: ubuntu-latest
+    
     steps:
     - name: 'Checkout code'
       uses: actions/checkout@v3
@@ -30,40 +31,39 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: 'Build and package'
-      shell: pwsh
       run: dotnet build --configuration Release
 
     - name: 'Test'
-      shell: pwsh
       run: dotnet test --configuration Release
 
   deploy:
     needs: build-and-test
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+    env: 
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     steps:
     - name: 'Checkout code'
       uses: actions/checkout@v3
-    - name: 'Resolve Project Dependencies Using Dotnet'
-      shell: pwsh
-      run: |
-        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-        dotnet build --configuration Release --output ./output
-        popd
-    - name: 'Login to Azure'
-      uses: azure/login@v1
+
+    - name: AWS CLI
+      run: dotnet tool install -g Amazon.Lambda.Tools
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-3
+
+    - name: Deploy to Lambda
+      run: dotnet lambda deploy-function ArtyApp
+
     - name: 'Set environment variables'
-      shell: pwsh
       run: >
-        az functionapp config appsettings set --name ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
-        --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --settings BotConfiguration__BotToken=${{ secrets.BOT_TOKEN }}
-        BotConfiguration__HostAddress=${{ secrets.AZURE_HOST }}
-        CurrencyExchangeConfiguration__CurrencyExchangeKey=${{ secrets.CURRENCY_API_KEY }}
-        OpenAIConfiguration__OpenAIKey=${{ secrets.OPENAI_KEY }}
-    - name: 'Run Azure Functions action'
-      uses: Azure/functions-action@v1
-      with:
-        app-name: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
-        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+        aws lambda update-function-configuration --function-name ArtyApp --environment 
+        "Variables={BotConfiguration__BotToken=${{ secrets.BOT_TOKEN }},
+        BotConfiguration__HostAddress=${{ secrets.AWS_HOST }},
+        CurrencyExchangeConfiguration__CurrencyExchangeKey=${{ secrets.CURRENCY_API_KEY }},
+        OpenAIConfiguration__OpenAIKey=${{ secrets.OPENAI_KEY }}}"

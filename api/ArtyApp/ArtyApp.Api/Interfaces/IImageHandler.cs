@@ -3,7 +3,7 @@ using System.Threading;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 
-namespace TelegramBot.Interfaces;
+namespace ArtyApp.Interfaces;
 
 public interface IImageHandler
 {
