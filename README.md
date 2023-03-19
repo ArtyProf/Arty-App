@@ -10,9 +10,11 @@ Integrated with Open AI.
 
 ## Status checks
 
+Back-end:
 [![Deployment on AWS Lambda](https://github.com/ArtyProf/Arty-App/actions/workflows/backend_deployment.yml/badge.svg?branch=master)](https://github.com/ArtyProf/Arty-App/actions/workflows/backend_deployment.yml)
 [![Quality Gate Status for Back-end](https://sonarcloud.io/api/project_badges/measure?project=arty-app-api&metric=alert_status)](https://sonarcloud.io/summary/overall?id=arty-app-api)
 
+Front-end:
 [![Quality Gate Status for Front-end](https://sonarcloud.io/api/project_badges/measure?project=arty-app-webapp&metric=alert_status)](https://sonarcloud.io/summary/overall?id=arty-app-webapp)
 ## Usage:
 
@@ -20,6 +22,6 @@ Integrated with Open AI.
 
 [Front-end README.md](https://github.com/ArtyProf/Arty-App/blob/master/webapp/README.md)
 
-#Run project in Docker
+##Run project in Docker
 
 `docker-compose -f ./docker-compose.local.yml up --build`
