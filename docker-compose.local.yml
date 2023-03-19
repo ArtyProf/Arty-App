@@ -11,4 +11,4 @@ services:
       context: webapp
       dockerfile: Dockerfile
     ports:
-      - "3080:3000"
+      - "3000:3000"
