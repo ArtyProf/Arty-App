@@ -23,6 +23,6 @@ Front-end:
 
 [Front-end README.md](https://github.com/ArtyProf/Arty-App/blob/master/webapp/README.md)
 
-##Run project in Docker
+## Run project in Docker
 
 `docker-compose -f ./docker-compose.local.yml up --build`
