@@ -16,6 +16,7 @@ Back-end:
 
 Front-end:
 [![Quality Gate Status for Front-end](https://sonarcloud.io/api/project_badges/measure?project=arty-app-webapp&metric=alert_status)](https://sonarcloud.io/summary/overall?id=arty-app-webapp)
+
 ## Usage:
 
 [Back-end README.md](https://github.com/ArtyProf/Arty-App/blob/master/api/README.md)

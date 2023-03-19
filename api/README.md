@@ -8,7 +8,7 @@ Integrated with Open AI.
 
 ## Status checks
 [![Deployment on AWS Lambda](https://github.com/ArtyProf/Arty-App/actions/workflows/backend_deployment.yml/badge.svg?branch=master)](https://github.com/ArtyProf/Arty-App/actions/workflows/backend_deployment.yml)
-[![Quality Gate Status for Back-end](https://sonarcloud.io/api/project_badges/measure?project=arty-app-api&metric=alert_status)](https://sonarcloud.io/summary/overall?id=arty-app-api)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=arty-app-api&metric=alert_status)](https://sonarcloud.io/summary/overall?id=arty-app-api)
 
 ## Usage:
 
