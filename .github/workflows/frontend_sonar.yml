@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - webapp
+      - webapp/*
   pull_request:
     types: [opened, synchronize, reopened]
   workflow_dispatch:

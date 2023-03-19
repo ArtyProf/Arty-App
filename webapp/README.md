@@ -5,7 +5,7 @@ Front-end was bootstrapped with [Create React App](https://github.com/facebook/c
 Hosted on Github Pages.
 
 ## Status checks
-[![Quality Gate Status for Front-end](https://sonarcloud.io/api/project_badges/measure?project=arty-app-webapp&metric=alert_status)](https://sonarcloud.io/summary/overall?id=arty-app-webapp)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=arty-app-webapp&metric=alert_status)](https://sonarcloud.io/summary/overall?id=arty-app-webapp)
 
 ## Available Scripts
 

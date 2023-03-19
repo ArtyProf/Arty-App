@@ -1,6 +1,13 @@
 name: Build and Deploy .NET API to AWS Lambda
 
 on:
+  push:
+    branches:
+      - master
+    paths:
+      - api/*
+  pull_request:
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
     inputs:
       logLevel:
@@ -38,6 +45,7 @@ jobs:
 
   deploy:
     needs: build-and-test
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     steps:
